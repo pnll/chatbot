@@ -215,6 +215,9 @@ function receivedAuthentication(event) {
  * then we'll simply confirm that we've received the attachment.
  * 
  */
+
+var messageAttachedImages = new Array();
+
 function receivedMessage(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -255,6 +258,10 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     switch (messageText) {
+      case 'pick':
+        sendPickMessage(senderID);
+        break;
+
       case 'image':
         sendImageMessage(senderID);
         break;
@@ -311,7 +318,8 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+      messageAttachedImages.push(messageAttachments);
+    sendTextMessage(senderID, "Message with attachment received" + messageAttachments);
   }
 }
 
@@ -408,6 +416,106 @@ function receivedAccountLink(event) {
  * Send an image using the Send API.
  *
  */
+/* SBPN - add pick */
+        function selection(){
+            var urls = messageAttachedImages;
+            //var res = document.getElementById('result');
+            var len = urls.length;
+            
+            var max = 0;
+            var maxImg = "";
+            for(var i=0; i<len; i++) {
+                var obj = urls[i];
+                //obj.style.backgroundColor = colorName;
+                //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
+            
+                var api = new FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
+                api.request('detection/detect', {
+                  url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
+                }, function(err, result) {
+                  if (err) {
+                    // TODO handle error
+                      console.log('error');
+                    return;
+                  }
+                  // TODO use result
+                    var attr = result.face[0].attribute;
+                    var age = attr.age.value;
+                    var emotion = attr.smiling.value;
+                    
+                    var score = (100-age) - (emotion>50 ? emotion-50 : 50-emotion); 
+                    
+                    if(score > max) {
+                        max = score;
+                        maxImg = obj.value;
+                        //document.getElementById('selected').src = maxImg;
+                    }
+                    //res.innerHTML += "["+score+"] Age: "+age +", Smile: "+ emotion+"<br>";
+                });
+            }
+            //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
+
+        }
+/* add pick */
+function sendPickMessage(recipientId) {
+
+        function selection(){
+            var urls = messageAttachedImages;
+            //var res = document.getElementById('result');
+            var len = urls.length;
+            
+            var max = 0;
+            var maxImg = "";
+            for(var i=0; i<len; i++) {
+                var obj = urls[i];
+                //obj.style.backgroundColor = colorName;
+                //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
+            
+                var api = new FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
+                api.request('detection/detect', {
+                  url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
+                }, function(err, result) {
+                  if (err) {
+                    // TODO handle error
+                      console.log('error');
+                    return;
+                  }
+                  // TODO use result
+                    var attr = result.face[0].attribute;
+                    var age = attr.age.value;
+                    var emotion = attr.smiling.value;
+                    
+                    var score = (100-age) - (emotion>50 ? emotion-50 : 50-emotion); 
+                    
+                    if(score > max) {
+                        max = score;
+                        maxImg = obj.value;
+                        //document.getElementById('selected').src = maxImg;
+                    }
+                    //res.innerHTML += "["+score+"] Age: "+age +", Smile: "+ emotion+"<br>";
+                });
+            }
+            //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
+            return maxImg;
+        }
+    
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "image",
+        payload: {
+          url: selection()
+        }
+      }
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
 function sendImageMessage(recipientId) {
   var messageData = {
     recipient: {
