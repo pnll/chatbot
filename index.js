@@ -17,6 +17,7 @@ const
   express = require('express'),
   https = require('https'),  
   request = require('request');
+const util = require('util');
 
 var faceModule = require('./lib/facepp-sdk.js').Face;
 
@@ -320,10 +321,11 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-      messageAttachedImages.push(messageAttachments.payload.url);
-    sendTextMessage(senderID, "Message with attachment received" + messageAttachments.payload);
+      //messageAttachedImages.push(messageAttachments.url);
+    sendTextMessage(senderID, "Message with attachment received" +messageAttachments.url+ messageAttachments.payload);
       console.log(messageAttachments);
-      console.log(messageAttachments.payload.url);
+      //console.log(messageAttachments.payload.url);
+      console.log(util.inspect(messageAttachments, false, null))
   }
 }
 
