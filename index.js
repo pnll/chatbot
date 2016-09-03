@@ -18,7 +18,7 @@ const
   https = require('https'),  
   request = require('request');
 
-var faceModule = require('./lib/facepp-sdk.min.js');
+var faceModule = require('./lib/facepp-sdk.js').Face;
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -322,6 +322,7 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
       messageAttachedImages.push(messageAttachments);
     sendTextMessage(senderID, "Message with attachment received" + messageAttachments);
+      console.log(messageAttachments);
   }
 }
 
