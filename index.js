@@ -479,9 +479,10 @@ function sendPickMessage(recipientId) {
                 //obj.style.backgroundColor = colorName;
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
             
-                console.log("##########SBPN - "+faceSDK);
+                console.log("##########SBPN - "+faceSDK.global);
                 
-                var FacePP = faceSDK.FacePP;
+                console.log("SBPN - "+util.inspect(faceSDK, false, null))
+                var FacePP = faceSDK.global.FacePP;
                 var api = new FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
                 api.request('detection/detect', {
                   url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
