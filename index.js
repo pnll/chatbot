@@ -478,7 +478,7 @@ function sendPickMessage(recipientId) {
                 //obj.style.backgroundColor = colorName;
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
             
-                var api = new faceModule.Face.FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
+                var api = new faceModule.FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
                 api.request('detection/detect', {
                   url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
                 }, function(err, result) {
