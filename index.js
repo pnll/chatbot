@@ -19,7 +19,7 @@ const
   request = require('request');
 const util = require('util');
 
-var faceSDK = require('./lib/facepp-sdk.js');
+var FacePP = require('./lib/facepp-sdk.js');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -477,8 +477,8 @@ function sendPickMessage(recipientId) {
             for(var i=0; i<len; i++) {
                 var obj = urls[i];
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
-                console.log("##########SBPN - "+faceSDK);
-                var FacePP = faceSDK;
+                console.log("##########SBPN - "+FacePP);
+                //var FacePP = FacePP;
                 var api = new FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
                 api.request('detection/detect', {
                   url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
