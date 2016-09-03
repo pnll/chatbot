@@ -261,7 +261,7 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     switch (messageText.toLowerCase()) {
-      case 'pick':
+      case 'p': //pick
         sendPickMessage(senderID);
         break;
 
@@ -322,7 +322,7 @@ function receivedMessage(event) {
     }
   } else if (messageAttachments) {
       messageAttachedImages.push(messageAttachments[0].payload.url);
-    sendTextMessage(senderID, "Message with attachment received");
+    //sendTextMessage(senderID, "Message with attachment received");
     sendTextMessage(senderID, messageAttachments[0].payload.url);
     sendTextMessage(senderID, "Que has "+ messageAttachedImages.length+"images");
       console.log("SBPN1 "+messageAttachments);
@@ -479,9 +479,9 @@ function sendPickMessage(recipientId) {
                 //obj.style.backgroundColor = colorName;
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
             
-                console.log("##########SBPN - "+faceSDK+faceSDK.FacePP);
-                console.log("SBPN - "+util.inspect(faceSDK, false, null))
-                var FacePP = faceSDK.FacePP;
+                console.log("##########SBPN - "+faceSDK);
+                //console.log("SBPN - "+util.inspect(faceSDK, false, null))
+                var FacePP = faceSDK;
                 var api = new FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
                 api.request('detection/detect', {
                   url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
