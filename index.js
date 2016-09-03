@@ -323,9 +323,9 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
       //messageAttachedImages.push(messageAttachments.url);
     sendTextMessage(senderID, "Message with attachment received" +messageAttachments.url+ messageAttachments.payload);
-      console.log(messageAttachments);
-      //console.log(messageAttachments.payload.url);
-      console.log(util.inspect(messageAttachments, false, null))
+      console.log("SBPN1 "+messageAttachments);
+      console.log("SBPN2 "+messageAttachments[0].payload.url);
+      console.log("SBPN3 "+util.inspect(messageAttachments, false, null))
   }
 }
 
