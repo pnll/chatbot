@@ -320,10 +320,10 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-      messageAttachedImages.push(messageAttachments.url);
-    sendTextMessage(senderID, "Message with attachment received" + messageAttachments);
+      messageAttachedImages.push(messageAttachments.payload.url);
+    sendTextMessage(senderID, "Message with attachment received" + messageAttachments.payload);
       console.log(messageAttachments);
-      console.log(messageAttachments.url);
+      console.log(messageAttachments.payload.url);
   }
 }
 
