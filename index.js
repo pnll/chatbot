@@ -481,11 +481,11 @@ function sendPickMessage(recipientId) {
             for(var i=0; i<len; i++) {
                 var obj = urls[i];
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
-                //console.log("##########SBPN - "+FacePP);
+                console.log("##########SBPN - "+obj); //+FacePP);
                 //var FacePP = FacePP;
                 
                 var parameters = {
-                    url: obj.value,
+                    url: obj,
                     attribute: 'gender,age'
                 };
                 fpp.get('detection/detect', parameters, function(err, res) {
