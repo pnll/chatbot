@@ -517,18 +517,30 @@ function sendPickMessage(recipientId) {
             }
             //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
             //return maxImg;
-          
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          attachment: {
+            type: "image",
+            payload: {
+              url: maxImg
+            }
+          }
+        }
+      };          
           
            setTimeout(
                  function(){
-                       resolved(maxImg);
+                       resolved(messageData);
                  },2000);
       });
 
     }
 
     var promise = asyncfunction(messageAttachedImages);
-    promise.then(console.log,console.err); 
+    promise.then(callSendAPI,console.err); 
     
         function selection(){
             var urls = messageAttachedImages;
@@ -553,7 +565,7 @@ function sendPickMessage(recipientId) {
                       console.log('Error from Server response');
                     return;
                   }                    
-                    console.log(res);
+                    //console.log(res);
                     console.log(util.inspect(res, false, null))
                     // TODO use result
                     var attr = res.face[0].attribute;
@@ -574,6 +586,7 @@ function sendPickMessage(recipientId) {
             return maxImg;
         }
     
+  /*
   var messageData = {
     recipient: {
       id: recipientId
@@ -582,13 +595,14 @@ function sendPickMessage(recipientId) {
       attachment: {
         type: "image",
         payload: {
-          url: selection()
+          url: maxImg
         }
       }
     }
-  };
+  }; 
 
   callSendAPI(messageData);
+  */
 }
 
 function sendImageMessage(recipientId) {
