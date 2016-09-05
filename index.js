@@ -481,44 +481,6 @@ function sendPickMessage(recipientId) {
   };
   callSendAPI(messageData);
     
-    messageData = {
-    recipient: {
-      id: recipientId
-    },
-    sender_action: "typing_off"
-  };
-   setTimeout(
-     function(){
-         callSendAPI(messageData);
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Here you are!",
-          buttons:[{
-            type: "web_url",
-            url: "https://www.messenger.com/t/facechatbot/",
-            title: "Open Web URL"
-          }, {
-            type: "postback",
-            title: "Trigger Postback",
-            payload: "DEVELOPED_DEFINED_PAYLOAD"
-          }]
-        }
-      }
-    }
-  };  
-
-  callSendAPI(messageData);         
-     },1000);
-    
-    
-    
     var asyncfunction = function(param){
       return new Promise(function(resolved,rejected){
           
@@ -527,7 +489,15 @@ function sendPickMessage(recipientId) {
             var len = urls.length;
           
           if(len == 0) {
-            sendTextMessage(recipientId, "Please send me your photos");
+            var messageData = {
+                recipient: {
+                  id: recipientId
+                },
+                sender_action: "typing_off"
+              };
+             callSendAPI(messageData);
+
+              sendTextMessage(recipientId, "Please send me your photos");
               rejected("Please send me your photos");
           }
             
@@ -555,12 +525,13 @@ function sendPickMessage(recipientId) {
                     var attr = res.face[0].attribute;
                     var age = attr.age.value;
                     var emotion = attr.smiling.value;
+                    var url = res.url;
                     
                     var score = (100-age) - (emotion>50 ? emotion-50 : 50-emotion); 
                     
                     if(score > max) {
                         max = score;
-                        maxImg = obj;
+                        maxImg = url;
                         
                         console.log("##### Result ##### ["+i+"] Max score "+max+" Img:"+ maxImg);
                         //document.getElementById('selected').src = maxImg;
@@ -589,13 +560,48 @@ function sendPickMessage(recipientId) {
                       };          
                    console.log(util.inspect(messageData, false, null));
                        resolved(messageData);
-                 },2000);
+                 },1000);
       });
 
     }
 
     var promise = asyncfunction(messageAttachedImages);
     promise.then(callSendAPI);
+    setTimeout(
+     function(){
+        var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            sender_action: "typing_off"
+          };
+         callSendAPI(messageData);
+   messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "Here you are!",
+          buttons:[{
+            type: "web_url",
+            url: "https://www.messenger.com/t/facechatbot/",
+            title: "Open Web URL"
+          }, {
+            type: "postback",
+            title: "Trigger Postback",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }]
+        }
+      }
+    }
+  };  
+
+  callSendAPI(messageData);         
+     },1000);
     
         function selection(){
             var urls = messageAttachedImages;
