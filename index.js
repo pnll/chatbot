@@ -708,7 +708,7 @@ function sendSelfImageMessage(recipientId) {
 }
 function sendClearMessage(recipientId) {
     messageAttachedImages = new Array();
-    sendTextMessage(recipientId, "I have forgotten all my memories. T_T");
+    sendTextMessage(recipientId, "I have forgotten all my memories. T_T\nCould you resend your photo? :O");
 }
 function sendHelpMessage(recipientId) {
     sendTextMessage(recipientId, "You can say 'pick me', 'clear' or 'reset'. :D");
