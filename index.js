@@ -268,10 +268,13 @@ function receivedMessage(event) {
     // the text we received.
     switch (messageText.toLowerCase()) {
       case 'p': //pick
+      case 'pick':
+      case 'pick me':
         sendPickMessage(senderID);
         break;
             
-      case 'who are you': //pick
+      case 'who are you':
+      case 'who r u':
         sendSelfImageMessage(senderID);
         break;
 
@@ -503,15 +506,19 @@ function sendPickMessage(recipientId) {
         type: "template",
         payload: {
           template_type: "button",
-          text: "Here you are!",
+          text: "Here you are! Do you like this?",
           buttons:[{
+            type: "postback",
+            title: "Like it!",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }, {
+            type: "postback",
+            title: "Retry",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }, {
             type: "web_url",
             url: "https://www.messenger.com/t/facechatbot/",
             title: "Open Web URL"
-          }, {
-            type: "postback",
-            title: "Trigger Postback",
-            payload: "DEVELOPED_DEFINED_PAYLOAD"
           }]
         }
       }
@@ -600,7 +607,7 @@ function sendPickMessage(recipientId) {
                       };          
                    console.log(util.inspect(messageData, false, null));
                        resolved(messageData);
-                 },3000);
+                 },5000);
       });
 
     }
