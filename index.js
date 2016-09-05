@@ -472,7 +472,28 @@ function receivedAccountLink(event) {
         }
 /* add pick */
 function sendPickMessage(recipientId) {
-
+    
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
+    
+    messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_off"
+  };
+   setTimeout(
+     function(){
+         callSendAPI(messageData);
+     },3000);
+    
+    
+    
     var asyncfunction = function(param){
       return new Promise(function(resolved,rejected){
           
@@ -533,16 +554,16 @@ function sendPickMessage(recipientId) {
           
            setTimeout(
                  function(){
-                     console.log("PICKED##### " + util.inspect(maxImg, false, null));
-                     console.log(messageData);
+                     console.log("PICKED##### " + maxImg);
+                     console.log(util.inspect(messageData, false, null));
                        resolved(messageData);
-                 },3000);
+                 },5000);
       });
 
     }
 
     var promise = asyncfunction(messageAttachedImages);
-    promise.then(callSendAPI); 
+    promise.then(callSendAPI);
     
         function selection(){
             var urls = messageAttachedImages;
