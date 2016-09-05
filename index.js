@@ -687,6 +687,7 @@ function sendSelfImageMessage(recipientId) {
   };
 
   callSendAPI(messageData);
+    sendTextMessage(recipientId, "I am your secretary for photos management like alter ego :)");
 }
 function sendImageMessage(recipientId) {
   var messageData = {
