@@ -561,6 +561,8 @@ function sendPickMessage(recipientId) {
                     if(score > max) {
                         max = score;
                         maxImg = obj;
+                        
+                        console.log("Result##### ["+i+"] Max score "+max+" Img:"+ maxImg);
                         //document.getElementById('selected').src = maxImg;
                     }
 
