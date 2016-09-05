@@ -21,6 +21,10 @@ const util = require('util');
 
 var FacePP = require('./lib/facepp-sdk.js');
 
+var fpp = require('face-plus-plus');
+fpp.setApiKey('0ef14fa726ce34d820c5a44e57fef470');
+fpp.setApiSecret('4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
+
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -479,17 +483,15 @@ function sendPickMessage(recipientId) {
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
                 console.log("##########SBPN - "+FacePP);
                 //var FacePP = FacePP;
-                var api = new FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
-                api.request('detection/detect', {
-                  url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
-                }, function(err, result) {
-                  if (err) {
-                    // TODO handle error
-                      console.log('error');
-                    return;
-                  }
-                  // TODO use result
-                    var attr = result.face[0].attribute;
+                
+                var parameters = {
+                    url: obj.value,
+                    attribute: 'gender,age'
+                };
+                fpp.get('detection/detect', parameters, function(err, res) {
+                    console.log(res);
+                    // TODO use result
+                    var attr = res.face[0].attribute;
                     var age = attr.age.value;
                     var emotion = attr.smiling.value;
                     
@@ -500,8 +502,22 @@ function sendPickMessage(recipientId) {
                         maxImg = obj.value;
                         //document.getElementById('selected').src = maxImg;
                     }
+
+                });
+                
+                /*
+                var api = new FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
+                api.request('detection/detect', {
+                  url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
+                }, function(err, result) {
+                  if (err) {
+                    // TODO handle error
+                      console.log('error');
+                    return;
+                  }
                     //res.innerHTML += "["+score+"] Age: "+age +", Smile: "+ emotion+"<br>";
                 });
+                */
             }
             //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
             return maxImg;
