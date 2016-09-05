@@ -273,9 +273,20 @@ function receivedMessage(event) {
         sendPickMessage(senderID);
         break;
             
+      case 'clear':
+      case 'reset':
+        sendClearMessage(senderID);
+        break;
+            
+      case 'hi':
       case 'who are you':
       case 'who r u':
         sendSelfImageMessage(senderID);
+        break;
+
+      case 'help':
+      case 'help me':
+        sendHelpMessage(senderID);
         break;
 
       case 'image':
@@ -532,8 +543,7 @@ function sendPickMessage(recipientId) {
       return new Promise(function(resolved,rejected){
           
           var urls = param;
-            //var res = document.getElementById('result');
-            var len = urls.length;
+          var len = urls.length;
           
           if(len == 0) {
             var messageData = {
@@ -694,7 +704,14 @@ function sendSelfImageMessage(recipientId) {
   };
 
   callSendAPI(messageData);
-    sendTextMessage(recipientId, "I am your secretary for photos management like alter ego :)");
+    sendTextMessage(recipientId, "I am your secretary for photos management, like alter ego. ;)");
+}
+function sendClearMessage(recipientId) {
+    messageAttachedImages = new Array();
+    sendTextMessage(recipientId, "I have forgotten all my memories. T_T");
+}
+function sendHelpMessage(recipientId) {
+    sendTextMessage(recipientId, "You can say 'pick me', 'clear' or 'reset'. :D");
 }
 function sendImageMessage(recipientId) {
   var messageData = {
