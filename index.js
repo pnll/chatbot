@@ -490,6 +490,31 @@ function sendPickMessage(recipientId) {
    setTimeout(
      function(){
          callSendAPI(messageData);
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "Here you are!",
+          buttons:[{
+            type: "web_url",
+            url: "https://www.messenger.com/t/facechatbot/",
+            title: "Open Web URL"
+          }, {
+            type: "postback",
+            title: "Trigger Postback",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }]
+        }
+      }
+    }
+  };  
+
+  callSendAPI(messageData);         
      },3000);
     
     
@@ -538,26 +563,26 @@ function sendPickMessage(recipientId) {
             }
             //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
             //return maxImg;
-              var messageData = {
-                recipient: {
-                  id: recipientId
-                },
-                message: {
-                  attachment: {
-                    type: "image",
-                    payload: {
-                      url: maxImg
-                    }
-                  }
-                }
-              };          
           
            setTimeout(
                  function(){
                      console.log("PICKED##### " + maxImg);
-                     console.log(util.inspect(messageData, false, null));
+                     var messageData = {
+                        recipient: {
+                          id: recipientId
+                        },
+                        message: {
+                          attachment: {
+                            type: "image",
+                            payload: {
+                              url: maxImg
+                            }
+                          }
+                        }
+                      };          
+                   console.log(util.inspect(messageData, false, null));
                        resolved(messageData);
-                 },5000);
+                 },3000);
       });
 
     }
@@ -626,32 +651,6 @@ function sendPickMessage(recipientId) {
 
   callSendAPI(messageData);
   */
-
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Here you are!",
-          buttons:[{
-            type: "web_url",
-            url: "https://www.messenger.com/t/facechatbot/",
-            title: "Open Web URL"
-          }, {
-            type: "postback",
-            title: "Trigger Postback",
-            payload: "DEVELOPED_DEFINED_PAYLOAD"
-          }]
-        }
-      }
-    }
-  };  
-
-  callSendAPI(messageData);
 }
 
 function sendImageMessage(recipientId) {
