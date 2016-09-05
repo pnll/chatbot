@@ -481,6 +481,42 @@ function sendPickMessage(recipientId) {
   };
   callSendAPI(messageData);
     
+    setTimeout(
+     function(){
+        var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            sender_action: "typing_off"
+          };
+         callSendAPI(messageData);
+   messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "Here you are!",
+          buttons:[{
+            type: "web_url",
+            url: "https://www.messenger.com/t/facechatbot/",
+            title: "Open Web URL"
+          }, {
+            type: "postback",
+            title: "Trigger Postback",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }]
+        }
+      }
+    }
+  };  
+
+  callSendAPI(messageData);         
+     },3000);
+
     var asyncfunction = function(param){
       return new Promise(function(resolved,rejected){
           
@@ -560,48 +596,14 @@ function sendPickMessage(recipientId) {
                       };          
                    console.log(util.inspect(messageData, false, null));
                        resolved(messageData);
-                 },1000);
+                 },2000);
       });
 
     }
 
     var promise = asyncfunction(messageAttachedImages);
     promise.then(callSendAPI);
-    setTimeout(
-     function(){
-        var messageData = {
-            recipient: {
-              id: recipientId
-            },
-            sender_action: "typing_off"
-          };
-         callSendAPI(messageData);
-   messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "Here you are!",
-          buttons:[{
-            type: "web_url",
-            url: "https://www.messenger.com/t/facechatbot/",
-            title: "Open Web URL"
-          }, {
-            type: "postback",
-            title: "Trigger Postback",
-            payload: "DEVELOPED_DEFINED_PAYLOAD"
-          }]
-        }
-      }
-    }
-  };  
 
-  callSendAPI(messageData);         
-     },1000);
     
         function selection(){
             var urls = messageAttachedImages;
