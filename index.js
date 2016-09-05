@@ -517,32 +517,32 @@ function sendPickMessage(recipientId) {
             }
             //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
             //return maxImg;
-      var messageData = {
-        recipient: {
-          id: recipientId
-        },
-        message: {
-          attachment: {
-            type: "image",
-            payload: {
-              url: maxImg
-            }
-          }
-        }
-      };          
+              var messageData = {
+                recipient: {
+                  id: recipientId
+                },
+                message: {
+                  attachment: {
+                    type: "image",
+                    payload: {
+                      url: maxImg
+                    }
+                  }
+                }
+              };          
           
            setTimeout(
                  function(){
-                       resolved(messageData);
-                     console.log("PICKED#####" + maxImg);
+                     console.log("PICKED##### " + maxImg);
                      console.log(messageData);
+                       resolved(messageData);
                  },2000);
       });
 
     }
 
     var promise = asyncfunction(messageAttachedImages);
-    promise.then(callSendAPI,console.err); 
+    promise.then(callSendAPI, console.err); 
     
         function selection(){
             var urls = messageAttachedImages;
