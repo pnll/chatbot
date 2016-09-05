@@ -270,6 +270,10 @@ function receivedMessage(event) {
       case 'p': //pick
         sendPickMessage(senderID);
         break;
+            
+      case 'who are you': //pick
+        sendSelfImageMessage(senderID);
+        break;
 
       case 'image':
         sendImageMessage(senderID);
@@ -543,7 +547,7 @@ function sendPickMessage(recipientId) {
                 var obj = urls[i];
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
                 console.log("##### SBPN ##### "+obj); //+FacePP);
-                //var FacePP = FacePP;
+                maxImg = obj;
                 
                 var parameters = {
                     url: obj
@@ -596,7 +600,7 @@ function sendPickMessage(recipientId) {
                       };          
                    console.log(util.inspect(messageData, false, null));
                        resolved(messageData);
-                 },2000);
+                 },3000);
       });
 
     }
@@ -667,7 +671,23 @@ function sendPickMessage(recipientId) {
   callSendAPI(messageData);
   */
 }
+function sendSelfImageMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "image",
+        payload: {
+          url: SERVER_URL + "/assets/bot.jpg"
+        }
+      }
+    }
+  };
 
+  callSendAPI(messageData);
+}
 function sendImageMessage(recipientId) {
   var messageData = {
     recipient: {
