@@ -527,7 +527,7 @@ function sendPickMessage(recipientId) {
             var len = urls.length;
           
           if(len == 0) {
-            sendTextMessage(senderID, "Please send me your photos");
+            sendTextMessage(recipientId, "Please send me your photos");
               rejected("Please send me your photos");
           }
             
@@ -536,7 +536,7 @@ function sendPickMessage(recipientId) {
             for(var i=0; i<len; i++) {
                 var obj = urls[i];
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
-                console.log("##########SBPN - "+obj); //+FacePP);
+                console.log("##### SBPN ##### "+obj); //+FacePP);
                 //var FacePP = FacePP;
                 
                 var parameters = {
@@ -562,7 +562,7 @@ function sendPickMessage(recipientId) {
                         max = score;
                         maxImg = obj;
                         
-                        console.log("Result##### ["+i+"] Max score "+max+" Img:"+ maxImg);
+                        console.log("##### Result ##### ["+i+"] Max score "+max+" Img:"+ maxImg);
                         //document.getElementById('selected').src = maxImg;
                     }
 
@@ -573,7 +573,7 @@ function sendPickMessage(recipientId) {
           
            setTimeout(
                  function(){
-                     console.log("PICKED##### " + maxImg);
+                     console.log("##### PICKED ##### " + maxImg);
                      var messageData = {
                         recipient: {
                           id: recipientId
@@ -589,7 +589,7 @@ function sendPickMessage(recipientId) {
                       };          
                    console.log(util.inspect(messageData, false, null));
                        resolved(messageData);
-                 },3000);
+                 },2000);
       });
 
     }
