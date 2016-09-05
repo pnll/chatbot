@@ -498,7 +498,7 @@ function sendPickMessage(recipientId) {
                       console.log('Error from Server response');
                     return;
                   }                    
-                    console.log(res);
+                    //console.log(res);
                     console.log(util.inspect(res, false, null))
                     // TODO use result
                     var attr = res.face[0].attribute;
@@ -534,6 +534,8 @@ function sendPickMessage(recipientId) {
            setTimeout(
                  function(){
                        resolved(messageData);
+                     console.log("PICKED#####" + maxImg);
+                     console.log(messageData);
                  },2000);
       });
 
