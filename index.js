@@ -618,7 +618,7 @@ function sendPickMessage(recipientId) {
           text: "Here you are!",
           buttons:[{
             type: "web_url",
-            url: "https://www.oculus.com/en-us/rift/",
+            url: "https://www.messenger.com/t/facechatbot/",
             title: "Open Web URL"
           }, {
             type: "postback",
