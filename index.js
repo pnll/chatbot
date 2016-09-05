@@ -22,8 +22,8 @@ const util = require('util');
 var FacePP = require('./lib/facepp-sdk.js');
 
 var fpp = require('face-plus-plus');
-fpp.setApiKey('0ef14fa726ce34d820c5a44e57fef470');
-fpp.setApiSecret('4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
+fpp.setApiKey('23f2e82cffb05a397b7ef5f5aa5920e8');
+fpp.setApiSecret('sRcfHQAP-ijE4aFR71Tc64hl4ZH89MSP');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -481,7 +481,7 @@ function sendPickMessage(recipientId) {
             for(var i=0; i<len; i++) {
                 var obj = urls[i];
                 //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
-                console.log("##########SBPN - "+FacePP);
+                //console.log("##########SBPN - "+FacePP);
                 //var FacePP = FacePP;
                 
                 var parameters = {
