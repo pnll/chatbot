@@ -485,11 +485,12 @@ function sendPickMessage(recipientId) {
                 //var FacePP = FacePP;
                 
                 var parameters = {
-                    url: obj,
-                    attribute: 'gender,age'
+                    url: obj
+                    //attribute: 'gender,age'
                 };
                 fpp.get('detection/detect', parameters, function(err, res) {
                     console.log(res);
+                    console.log(util.inspect(res, false, null))
                     // TODO use result
                     var attr = res.face[0].attribute;
                     var age = attr.age.value;
@@ -499,7 +500,7 @@ function sendPickMessage(recipientId) {
                     
                     if(score > max) {
                         max = score;
-                        maxImg = obj.value;
+                        maxImg = obj;
                         //document.getElementById('selected').src = maxImg;
                     }
 
