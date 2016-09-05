@@ -533,16 +533,16 @@ function sendPickMessage(recipientId) {
           
            setTimeout(
                  function(){
-                     console.log("PICKED##### " + maxImg);
+                     console.log("PICKED##### " + util.inspect(maxImg, false, null));
                      console.log(messageData);
                        resolved(messageData);
-                 },2000);
+                 },3000);
       });
 
     }
 
     var promise = asyncfunction(messageAttachedImages);
-    promise.then(callSendAPI, console.err); 
+    promise.then(callSendAPI); 
     
         function selection(){
             var urls = messageAttachedImages;
@@ -615,7 +615,7 @@ function sendPickMessage(recipientId) {
         type: "template",
         payload: {
           template_type: "button",
-          text: "This is test text",
+          text: "Here you are!",
           buttons:[{
             type: "web_url",
             url: "https://www.oculus.com/en-us/rift/",
