@@ -25,6 +25,8 @@ var fpp = require('face-plus-plus');
 fpp.setApiKey('23f2e82cffb05a397b7ef5f5aa5920e8');
 fpp.setApiSecret('sRcfHQAP-ijE4aFR71Tc64hl4ZH89MSP');
 
+var Promise = require('promise');
+
 var app = express();
 app.set('port', process.env.PORT || 5000);
 app.set('view engine', 'ejs');
@@ -471,6 +473,63 @@ function receivedAccountLink(event) {
 /* add pick */
 function sendPickMessage(recipientId) {
 
+    var asyncfunction = function(param){
+      return new Promise(function(resolved,rejected){
+          
+          var urls = param;
+            //var res = document.getElementById('result');
+            var len = urls.length;
+            
+            var max = 0;
+            var maxImg = "";
+            for(var i=0; i<len; i++) {
+                var obj = urls[i];
+                //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
+                console.log("##########SBPN - "+obj); //+FacePP);
+                //var FacePP = FacePP;
+                
+                var parameters = {
+                    url: obj
+                    //attribute: 'gender,age'
+                };
+                fpp.get('detection/detect', parameters, function(err, res) {
+                  if (err) {
+                    // TODO handle error
+                      console.log('Error from Server response');
+                    return;
+                  }                    
+                    console.log(res);
+                    console.log(util.inspect(res, false, null))
+                    // TODO use result
+                    var attr = res.face[0].attribute;
+                    var age = attr.age.value;
+                    var emotion = attr.smiling.value;
+                    
+                    var score = (100-age) - (emotion>50 ? emotion-50 : 50-emotion); 
+                    
+                    if(score > max) {
+                        max = score;
+                        maxImg = obj;
+                        //document.getElementById('selected').src = maxImg;
+                    }
+
+                });
+            }
+            //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
+            //return maxImg;
+          
+          
+           setTimeout(
+                 function(){
+                       resolved(maxImg);
+                 },2000);
+      });
+
+    }
+
+    var promise = asyncfunction(messageAttachedImages);
+    promise.then(console.log,console.err); 
+    
         function selection(){
             var urls = messageAttachedImages;
             //var res = document.getElementById('result');
@@ -489,6 +548,11 @@ function sendPickMessage(recipientId) {
                     //attribute: 'gender,age'
                 };
                 fpp.get('detection/detect', parameters, function(err, res) {
+                  if (err) {
+                    // TODO handle error
+                      console.log('Error from Server response');
+                    return;
+                  }                    
                     console.log(res);
                     console.log(util.inspect(res, false, null))
                     // TODO use result
@@ -505,20 +569,6 @@ function sendPickMessage(recipientId) {
                     }
 
                 });
-                
-                /*
-                var api = new FacePP('0ef14fa726ce34d820c5a44e57fef470', '4Y9YXOMSDvqu1Ompn9NSpNwWQFHs1hYD');
-                api.request('detection/detect', {
-                  url: obj.value //'http://cn.faceplusplus.com/static/resources/python_demo/1.jpg'
-                }, function(err, result) {
-                  if (err) {
-                    // TODO handle error
-                      console.log('error');
-                    return;
-                  }
-                    //res.innerHTML += "["+score+"] Age: "+age +", Smile: "+ emotion+"<br>";
-                });
-                */
             }
             //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
             return maxImg;
