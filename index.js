@@ -515,7 +515,7 @@ function sendPickMessage(recipientId) {
   };  
 
   callSendAPI(messageData);         
-     },3000);
+     },1000);
     
     
     
@@ -525,6 +525,11 @@ function sendPickMessage(recipientId) {
           var urls = param;
             //var res = document.getElementById('result');
             var len = urls.length;
+          
+          if(len == 0) {
+            sendTextMessage(senderID, "Please send me your photos");
+              rejected("Please send me your photos");
+          }
             
             var max = 0;
             var maxImg = "";
