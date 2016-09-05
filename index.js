@@ -579,12 +579,16 @@ function sendPickMessage(recipientId) {
                     //console.log(res);
                     console.log(util.inspect(res, false, null))
                     // TODO use result
-                    var attr = res.face[0].attribute;
-                    var age = attr.age.value;
-                    var emotion = attr.smiling.value;
-                    var url = res.url;
-                    
-                    var score = (100-age) - (emotion>50 ? emotion-50 : 50-emotion); 
+                    var score = 0;
+                    if(res.face.length != 0) {
+                        var attr = res.face[0].attribute;
+                        var age = attr.age.value;
+                        var emotion = attr.smiling.value;
+                        var url = res.url;
+
+                        score = (100-age) - (emotion>50 ? emotion-50 : 50-emotion); 
+                    }
+                    else score = 0;
                     
                     if(score > max) {
                         max = score;
@@ -708,7 +712,7 @@ function sendSelfImageMessage(recipientId) {
 }
 function sendClearMessage(recipientId) {
     messageAttachedImages = new Array();
-    sendTextMessage(recipientId, "I have forgotten all my memories. T_T\nCould you resend your photo? :O");
+    sendTextMessage(recipientId, "I have forgotten all my memories. T_T Could you resend your photo? :O");
 }
 function sendHelpMessage(recipientId) {
     sendTextMessage(recipientId, "You can say 'pick me', 'clear' or 'reset'. :D");
