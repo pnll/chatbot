@@ -490,6 +490,10 @@ function receivedAccountLink(event) {
         }
 /* add pick */
 function sendPickMessage(recipientId) {
+          if(messageAttachedImages.length == 0) {
+              sendTextMessage(recipientId, "I have nothing :O please show me your photos");
+          }
+    else {
     
   var messageData = {
     recipient: {
@@ -513,6 +517,27 @@ function sendPickMessage(recipientId) {
       id: recipientId
     },
     message: {
+      text: "Here you are! Do you like this? :)",
+      metadata: "DEVELOPER_DEFINED_METADATA",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"Like it!",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+        },
+        {
+          "content_type":"text",
+          "title":"Not bad",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+        },
+        {
+          "content_type":"text",
+          "title":"Retry",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
+        }
+      ]
+    }
+       /*message: {
       attachment: {
         type: "template",
         payload: {
@@ -533,7 +558,7 @@ function sendPickMessage(recipientId) {
           }]
         }
       }
-    }
+    } */
   };  
 
   callSendAPI(messageData);         
@@ -545,7 +570,7 @@ function sendPickMessage(recipientId) {
           var urls = param;
           var len = urls.length;
           
-          if(len == 0) {
+          /*if(len == 0) {
             var messageData = {
                 recipient: {
                   id: recipientId
@@ -556,7 +581,7 @@ function sendPickMessage(recipientId) {
 
               sendTextMessage(recipientId, "Please send me your photos");
               rejected("Please send me your photos");
-          }
+          }*/
             
             var max = 0;
             var maxImg = "";
@@ -674,6 +699,7 @@ function sendPickMessage(recipientId) {
             return maxImg;
         }
     
+    }
   /*
   var messageData = {
     recipient: {
