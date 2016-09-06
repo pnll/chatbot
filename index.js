@@ -722,7 +722,7 @@ function sendPickMessage(recipientId) {
   */
 }
 function sendSelfImageMessage(recipientId) {
-    var arr = ["b1.gif","b2.gif","b3.gif"]
+    var arr = ["bot.jpg","b1.gif","b2.gif","b3.gif"]
     var start=1;
     var end=3;
     var rand = Math.floor((Math.random() * (end-start+1)) + start);
@@ -741,8 +741,12 @@ function sendSelfImageMessage(recipientId) {
     }
   };
 
+    arr = ["bot.jpg",
+               "I am your secretary for photo management, like alter ego. ;) I am trying to read your needs.",
+               "Who am I? :O Let me know-",
+               "I'm your intelligent friend :D"]
   callSendAPI(messageData);
-    sendTextMessage(recipientId, "I am your secretary for photo management, like alter ego. ;) I am trying to read your needs.");
+    sendTextMessage(recipientId, arr[rand]);
 }
 function sendClearMessage(recipientId) {
     messageAttachedImages = new Array();
