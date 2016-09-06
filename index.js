@@ -279,8 +279,11 @@ function receivedMessage(event) {
         break;
             
       case 'hi':
+      case 'hey':
+        sendTextMessage(senderID, "Hi, may I help you? ;)");
+        break;
       case 'hello':
-        sendTextMessage(senderID, "Hi, nice to meet you ;)");
+        sendTextMessage(senderID, "Hi, nice to meet you. ;)");
         break;
       case 'who are you':
       case 'who r u':
