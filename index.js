@@ -285,6 +285,10 @@ function receivedMessage(event) {
       case 'hello':
         sendTextMessage(senderID, "Hi, nice to meet you. ;)");
         break;
+      case 'bye':
+      case 'goodbye':
+        sendTextMessage(senderID, "See you ;)");
+        break;
       case 'who are you':
       case 'who r u':
         sendSelfImageMessage(senderID);
@@ -568,7 +572,7 @@ function sendPickMessage(recipientId) {
   };  
 
   callSendAPI(messageData);         
-     },10000);
+     },8000);
 
     var asyncfunction = function(param){
       return new Promise(function(resolved,rejected){
