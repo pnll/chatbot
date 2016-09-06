@@ -279,6 +279,9 @@ function receivedMessage(event) {
         break;
             
       case 'hi':
+      case 'hello':
+        sendTextMessage(senderID, "Hi, nice to meet you ;)");
+        break;
       case 'who are you':
       case 'who r u':
         sendSelfImageMessage(senderID);
@@ -348,7 +351,7 @@ function receivedMessage(event) {
       messageAttachedImages.push(messageAttachments[0].payload.url);
     //sendTextMessage(senderID, "Message with attachment received");
     sendTextMessage(senderID, messageAttachments[0].payload.url);
-    sendTextMessage(senderID, "Que has "+ messageAttachedImages.length+"images");
+    sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+messageAttachments[0].payload.url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null))
@@ -562,7 +565,7 @@ function sendPickMessage(recipientId) {
   };  
 
   callSendAPI(messageData);         
-     },3000);
+     },10000);
 
     var asyncfunction = function(param){
       return new Promise(function(resolved,rejected){
@@ -719,6 +722,11 @@ function sendPickMessage(recipientId) {
   */
 }
 function sendSelfImageMessage(recipientId) {
+    var arr = {"b1.gif","b2.gif","b3.gif"}
+    var start=1;
+    var end=3;
+    var rand = Math.floor((Math.random() * (end-start+1)) + start);
+    
   var messageData = {
     recipient: {
       id: recipientId
@@ -727,7 +735,7 @@ function sendSelfImageMessage(recipientId) {
       attachment: {
         type: "image",
         payload: {
-          url: SERVER_URL + "/assets/bot.jpg"
+          url: SERVER_URL + "/assets/" + arr[rand]
         }
       }
     }
