@@ -530,7 +530,7 @@ function sendPickMessage(recipientId) {
         },
         {
           "content_type":"text",
-          "title":"Not bad",
+          "title":"So so",
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
         },
         {
@@ -753,7 +753,7 @@ function sendClearMessage(recipientId) {
     sendTextMessage(recipientId, "I have forgotten all my memories. T_T Could you resend your photo? :O");
 }
 function sendHelpMessage(recipientId) {
-    sendTextMessage(recipientId, "You can say 'pick me', 'clear' or 'reset'. :D");
+    sendTextMessage(recipientId, "First of all, send your photos, and You can say 'pick me', 'clear' or 'reset'. :D");
 }
 function sendImageMessage(recipientId) {
   var messageData = {
