@@ -666,7 +666,7 @@ function sendFaceMessage(recipientId) {
   callSendAPI(messageData);
 
     var len = facesMS.length;
-    var result = "Sorry? Pandora's box is empty."
+    var result = "Sorry? Pandora's box wants over 2 photos"
     setTimeout(
      function(){
         if(len > 1) {
@@ -700,22 +700,18 @@ function sendIUMessage(recipientId) {
     var personId = '2c0681cb-5d2c-4d10-b287-ab7910c26eb7';
     var len = facesMS.length;
     var result = "need new photo for comparison"
-    setTimeout(
-     function(){
-        if(len > 0) {
-            msFace.api('verify', 'POST', {}, {
-              faceId: facesMS[len-1].faceId,
-              personId: personId,
-              personGroupId: personGroupId
-            }, function(error, res, body) {
-              console.log(body)
-                //facesMS.push(body[0]);
-              result = "Similarity between latest photo and previous one, it's "+ body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
-              sendTextMessage(recipientId, result);
-            });
-        }
-     }, 3000);
-  sendTextMessage(recipientId, result);
+    if(len > 0) {
+        msFace.api('verify', 'POST', {}, {
+          faceId: facesMS[len-1].faceId,
+          personId: personId,
+          personGroupId: personGroupId
+        }, function(error, res, body) {
+          console.log(body)
+          result = "[IU] Similarity between latest photo and IU, it seems.. "+ body.isIdentical +", has confidence of "+ body.confidence*100 + "%";
+          sendTextMessage(recipientId, result);
+        });
+    }
+    else sendTextMessage(recipientId, result);  
 }
 
 /* add pick */
