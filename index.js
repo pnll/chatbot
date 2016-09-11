@@ -750,13 +750,10 @@ function sendGuessMessage(recipientId) {
     var len = urls.length;
     if(len > 0) {
                 var obj = urls[len-1];
-                //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
                 console.log("##### SBPN ##### "+obj); //+FacePP);
-                maxImg = obj;
-                
                 var parameters = {
-                    url: obj
-                    //attribute: 'gender,age'
+                    url: obj,
+                    attribute: 'gender,age'
                 };
                 fpp.get('detection/detect', parameters, function(err, res) {
                   if (err) {
