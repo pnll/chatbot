@@ -268,28 +268,28 @@ function receivedMessage(event) {
   if (messageText) {
       if (messageText.substring(0, 1) == '#') {
           // #[Amy] is [my best friend]
-        msFace.api('facelists', 'PUT', {}, {
+        msFace.api('facelists', 'PUT', {'facelist_Id0'}, {
           name: '#IU',
           userData: 'Singer'
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
             console.log("##### RES " + util.inspect(res, false, null));
             if(body.statusCode==200) sendTextMessage(senderID, "Good, completed");
-            else sendTextMessage(senderID, body.statusCode+body.message);
+            else sendTextMessage(senderID, body.statusCode+", "+body.message);
           return body;
         });          
-          sendTextMessage(senderID, messageText + " is created.");
+        //sendTextMessage(senderID, messageText + " is created.");
       }
       if (messageText.substring(0, 1) == '@') {
         //Create a persongroups
-        msFace.api('persongroups', 'PUT', {personGroupId:'group_id0'}, {
+        msFace.api('persongroups', 'PUT', {'group_id0'}, {
           name: 'group0',
           userData: 'test group1'
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
             if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
-            else if(body.statusCode==404) sendTextMessage(senderID, "404, "+body.message);
+            else sendTextMessage(senderID, body.statusCode+", "+body.message);
           return body;
         });
         //Create a person
@@ -300,7 +300,7 @@ function receivedMessage(event) {
             console.log("##### BODY " + util.inspect(body, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
             if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
-            else if(body.statusCode==404) sendTextMessage(senderID, "404, "+body.message);
+            else sendTextMessage(senderID, body.statusCode+", "+body.message);
           return body;
         });          
           sendTextMessage(senderID, messageText + " is OK.");
