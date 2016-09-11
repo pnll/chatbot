@@ -297,7 +297,6 @@ function receivedMessage(event) {
                 url: messageAttachedImages[len-1]
             }, function(error, res, body) {
                 console.log("##### BODY " + util.inspect(body, false, null));
-                console.log("##### ERR " + util.inspect(error, false, null));
                 //console.log("##### RES " + util.inspect(res, false, null));
                 /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
                 else {
@@ -329,7 +328,6 @@ function receivedMessage(event) {
             url = 'persongroups/'+personGroupId+'/persons/'+personId;
             msFace.api(url, 'GET', {}, {}, function(error, res, body) {
                 console.log("##### BODY " + util.inspect(body, false, null));
-                console.log("##### ERR " + util.inspect(error, false, null));
                 //console.log("##### RES " + util.inspect(res, false, null));
               return body;
             });
@@ -386,6 +384,10 @@ function receivedMessage(event) {
       case 'help me':
       case '?':
         sendHelpMessage(senderID);
+        break;
+            
+      case 'iu':
+        sendIUMessage(senderID);
         break;
 
       case 'image':
@@ -685,7 +687,36 @@ function sendFaceMessage(recipientId) {
      }, 3000);
   sendTextMessage(recipientId, result);
 }
+function sendIUMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
 
+    var personGroupId = 'test_group1';
+    var personId = '2c0681cb-5d2c-4d10-b287-ab7910c26eb7';
+    var len = facesMS.length;
+    var result = "need new photo for comparison"
+    setTimeout(
+     function(){
+        if(len > 0) {
+            msFace.api('verify', 'POST', {}, {
+              faceId: facesMS[len-1].faceId,
+              personId: personId,
+              personGroupId: personGroupId
+            }, function(error, res, body) {
+              console.log(body)
+                //facesMS.push(body[0]);
+              result = "Similarity between latest photo and previous one, it's "+ body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
+              sendTextMessage(recipientId, result);
+            });
+        }
+     }, 3000);
+  sendTextMessage(recipientId, result);
+}
 
 /* add pick */
 function sendPickMessage(recipientId) {
