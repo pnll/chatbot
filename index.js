@@ -279,6 +279,29 @@ function receivedMessage(event) {
         });          
           sendTextMessage(senderID, messageText + " is created.");
       }
+      if (messageText.substring(0, 1) == '@') {
+        //Create a persongroups
+        msFace.api('persongroups', 'PUT', {personGroupId:'group_id0'}, {
+          name: 'group0',
+          userData: 'test group1'
+        }, function(error, res, body) {
+            console.log("##### BODY " + util.inspect(body, false, null));
+            console.log("##### RES " + util.inspect(res, false, null));
+            if(res.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
+          return body;
+        });
+        //Create a person
+        msFace.api('persongroups', 'POST', {personGroupId:'group_id0'}, {
+          name: 'person0',
+          userData: 'test p1'
+        }, function(error, res, body) {
+            console.log("##### BODY " + util.inspect(body, false, null));
+            console.log("##### RES " + util.inspect(res, false, null));
+            if(res.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
+          return body;
+        });          
+          sendTextMessage(senderID, messageText + " is OK.");
+      }
 
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
