@@ -268,7 +268,8 @@ function receivedMessage(event) {
   if (messageText) {
       if (messageText.substring(0, 1) == '#') {
           // #[Amy] is [my best friend]
-        msFace.api('facelists', 'PUT', {}, {
+          // function(url, method, option, data, cb)
+        msFace.api('facelists/{faceListId}', 'PUT', {}, {
           name: '#IU',
           userData: 'Singer'
         }, function(error, res, body) {
@@ -282,7 +283,8 @@ function receivedMessage(event) {
       }
       if (messageText.substring(0, 1) == '@') {
         //Create a persongroups
-        msFace.api('persongroups', 'PUT', {'personGroupId':'id'}, {
+        var url = 'persongroups/{personGroupId}';
+        msFace.api(url, 'PUT', {'personGroupId':'id'}, {
           name: 'group0',
           userData: 'test group1'
         }, function(error, res, body) {
@@ -293,7 +295,8 @@ function receivedMessage(event) {
           return body;
         });
         //Create a person
-        msFace.api('persongroups', 'POST', {personGroupId:'group_id0'}, {
+          url = 'persongroups/{personGroupId}/persons';
+        msFace.api(url, 'POST', {personGroupId:'group_id0'}, {
           name: 'person0',
           userData: 'test p1'
         }, function(error, res, body) {
