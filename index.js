@@ -266,6 +266,18 @@ function receivedMessage(event) {
   }
 
   if (messageText) {
+      if (messageText.[0] == '#') {
+          // #[Amy] is [my best friend]
+        msFace.api('facelists', 'PUT', {}, {
+          name: '#IU',
+          userData: 'Singer'
+        }, function(error, res, body) {
+            console.log(body)
+            if(res==200) sendTextMessage(senderID, "Good, completed");
+          return body;
+        });          
+          sendTextMessage(senderID, messageText + " is created.");
+      }
 
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
@@ -540,10 +552,11 @@ function sendFaceMessage(recipientId) {
             }, function(error, res, body) {
                 console.log(body)
                 //facesMS.push(body[0]);
-              result = "Between latest photo and previous one, it's "+ body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
+              result = "Similarity between latest photo and previous one, it's "+ body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
+                sendTextMessage(recipientId, result);
             });
         }
-     },2000);
+     }, 3000);
   sendTextMessage(recipientId, result);
 }
 
