@@ -274,7 +274,8 @@ function receivedMessage(event) {
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
             console.log("##### RES " + util.inspect(res, false, null));
-            if(res.statusCode==200) sendTextMessage(senderID, "Good, completed");
+            if(body.statusCode==200) sendTextMessage(senderID, "Good, completed");
+            else sendTextMessage(senderID, body.statusCode+body.message);
           return body;
         });          
           sendTextMessage(senderID, messageText + " is created.");
@@ -286,8 +287,9 @@ function receivedMessage(event) {
           userData: 'test group1'
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
-            console.log("##### RES " + util.inspect(res, false, null));
-            if(res.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
+            //console.log("##### RES " + util.inspect(res, false, null));
+            if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
+            else if(body.statusCode==404) sendTextMessage(senderID, "404, "+body.message);
           return body;
         });
         //Create a person
@@ -296,8 +298,9 @@ function receivedMessage(event) {
           userData: 'test p1'
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
-            console.log("##### RES " + util.inspect(res, false, null));
-            if(res.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
+            //console.log("##### RES " + util.inspect(res, false, null));
+            if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
+            else if(body.statusCode==404) sendTextMessage(senderID, "404, "+body.message);
           return body;
         });          
           sendTextMessage(senderID, messageText + " is OK.");
