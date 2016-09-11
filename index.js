@@ -1021,7 +1021,9 @@ function sendClearMessage(recipientId) {
     sendTextMessage(recipientId, "I have forgotten all my memories. T_T Could you resend your photo? :O");
 }
 function sendHelpMessage(recipientId) {
-    sendTextMessage(recipientId, "First of all, send your photos, and You can say 'pick me', 'clear' or 'reset'. :D");
+    sendTextMessage(recipientId, "First of all, send your photos and next,");
+    sendTextMessage(recipientId, "You can say including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU' :D");
+    sendTextMessage(recipientId, "'IU' will compare between your photo and the face of IU.");
 }
 function sendImageMessage(recipientId) {
   var messageData = {
