@@ -272,8 +272,8 @@ function receivedMessage(event) {
           name: '#IU',
           userData: 'Singer'
         }, function(error, res, body) {
-            console.log(body)
-            if(res==200) sendTextMessage(senderID, "Good, completed");
+            console.log("##### ID " + body);
+            if(res.statusCode==200) sendTextMessage(senderID, "Good, completed");
           return body;
         });          
           sendTextMessage(senderID, messageText + " is created.");
