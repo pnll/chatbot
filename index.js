@@ -301,9 +301,27 @@ function receivedMessage(event) {
                 //console.log("##### RES " + util.inspect(res, false, null));
                 /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
                 else {
-                    sendTextMessage(senderID, body.statusCode+", "+body.message);    
-                    sendTextMessage(senderID, body.error.code+", "+body.error.message);    
                 }*/
+                var keys = Object.keys(body);
+                if(keys[0] == 'persistedFaceId') {
+                    var persistedFaceId = body.persistedFaceId;
+                    
+                    sendTextMessage(senderID, "Good, [Create a persistedFace] "+ persistedFaceId);
+                    /*
+                    msFace.api(url+'/'+persistedFaceId, 'POST', {}, {
+                        url: messageAttachedImages[len-1]
+                    }, function(error, res, body) {
+                        console.log("##### BODY " + util.inspect(body, false, null));
+                        console.log("##### ERR " + util.inspect(error, false, null));
+                        //console.log("##### RES " + util.inspect(res, false, null));
+                      return body;
+                    });
+                    */
+                }
+                else if(keys[0] == 'error') {
+                    sendTextMessage(senderID, body.error.code+", "+body.error.message);    
+                }
+                
               return body;
             });          
             sendTextMessage(senderID, messageText + " @ is OK.");
