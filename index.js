@@ -229,6 +229,7 @@ function receivedAuthentication(event) {
  */
 
 var messageAttachedImages = new Array();
+var facesMS = new Array();
 
 function receivedMessage(event) {
   var senderID = event.sender.id;
@@ -370,6 +371,8 @@ function receivedMessage(event) {
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+messageAttachments[0].payload.url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null))
+      
+    callFaceAPI('detect', url);
   }
 }
 
@@ -509,11 +512,23 @@ function receivedAccountLink(event) {
 
 
 function sendFaceMessage(recipientId) {
-    var len = messageAttachedImages.length;
-    var result = "sorry?"
-    if(len != 0) {
-        var url = messageAttachedImages[len-1];
-        result = callFaceAPI('detect', url);
+    var len = facesMS.length;
+    var result = "Sorry? Pandora's box is empty."
+    if(len > 1) {
+        /*for(var i=0; i<len; i++) {
+            facesMS[i].faceId;
+        }*/
+        
+        msFace.api('verify', 'POST', {}, {
+          faceId1: facesMS[len-2].faceId,
+          faceId2: facesMS[len-1].faceId
+        }, function(error, res, body) {
+            console.log(body)
+            //facesMS.push(body[0]);
+          result = res.isIdentical +", "+ res.confidence*100 + "%";
+        });
+        //var url = messageAttachedImages[len-1];
+        //result = callFaceAPI('detect', url);
     }
 
   sendTextMessage(recipientId, result);
@@ -1180,6 +1195,10 @@ function callFaceAPI(type, faceData) {
       url: faceData
     }, function(error, res, body) {
         console.log(body)
+        
+        //body.length?
+        facesMS.push(body[0]);
+        
       return body;
     });
 }
