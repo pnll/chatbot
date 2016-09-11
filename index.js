@@ -276,11 +276,11 @@ function receivedMessage(event) {
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
-            if(body.statusCode==200) sendTextMessage(senderID, "Good, completed");
+            /*if(body.statusCode==200) sendTextMessage(senderID, "Good, completed");
             else {
                 sendTextMessage(senderID, body.statusCode+", "+body.message);    
                 sendTextMessage(senderID, body.error.code+", "+body.error.message);    
-            }
+            }*/
           return body;
         });          
         //sendTextMessage(senderID, messageText + " is created.");
@@ -295,11 +295,11 @@ function receivedMessage(event) {
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
-            if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
+            /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
             else {
                 sendTextMessage(senderID, body.statusCode+", "+body.message);    
                 sendTextMessage(senderID, body.error.code+", "+body.error.message);    
-            }
+            }*/
           return body;
         });
         //Create a person
@@ -311,11 +311,11 @@ function receivedMessage(event) {
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
-            if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
+            /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
             else {
                 sendTextMessage(senderID, body.statusCode+", "+body.message);    
                 sendTextMessage(senderID, body.error.code+", "+body.error.message);    
-            }
+            }*/
           return body;
         });          
           sendTextMessage(senderID, messageText + " is OK.");
