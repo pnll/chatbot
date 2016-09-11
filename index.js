@@ -348,6 +348,7 @@ function receivedMessage(event) {
 
       case 'help':
       case 'help me':
+      case '?':
         sendHelpMessage(senderID);
         break;
 
