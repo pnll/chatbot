@@ -276,7 +276,10 @@ function receivedMessage(event) {
             console.log("##### BODY " + util.inspect(body, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
             if(body.statusCode==200) sendTextMessage(senderID, "Good, completed");
-            else sendTextMessage(senderID, body.statusCode+", "+body.message);
+            else {
+                sendTextMessage(senderID, body.statusCode+", "+body.message);    
+                sendTextMessage(senderID, body.error.code+", "+body.error.message);    
+            }
           return body;
         });          
         //sendTextMessage(senderID, messageText + " is created.");
@@ -284,26 +287,32 @@ function receivedMessage(event) {
       if (messageText.substring(0, 1) == '@') {
         //Create a persongroups
         var url = 'persongroups/{personGroupId}';
-        msFace.api(url, 'PUT', {'personGroupId':'id'}, {
+        msFace.api(url, 'PUT', {}, {
           name: 'group0',
           userData: 'test group1'
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
             if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
-            else sendTextMessage(senderID, body.statusCode+", "+body.message);
+            else {
+                sendTextMessage(senderID, body.statusCode+", "+body.message);    
+                sendTextMessage(senderID, body.error.code+", "+body.error.message);    
+            }
           return body;
         });
         //Create a person
           url = 'persongroups/{personGroupId}/persons';
-        msFace.api(url, 'POST', {personGroupId:'group_id0'}, {
+        msFace.api(url, 'POST', {}, {
           name: 'person0',
           userData: 'test p1'
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
             if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
-            else sendTextMessage(senderID, body.statusCode+", "+body.message);
+            else {
+                sendTextMessage(senderID, body.statusCode+", "+body.message);    
+                sendTextMessage(senderID, body.error.code+", "+body.error.message);    
+            }
           return body;
         });          
           sendTextMessage(senderID, messageText + " is OK.");
