@@ -517,23 +517,33 @@ function receivedAccountLink(event) {
 
 
 function sendFaceMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
+
     var len = facesMS.length;
     var result = "Sorry? Pandora's box is empty."
-    if(len > 1) {
-        /*for(var i=0; i<len; i++) {
-            facesMS[i].faceId;
-        }*/
-        
-        msFace.api('verify', 'POST', {}, {
-          faceId1: facesMS[len-2].faceId,
-          faceId2: facesMS[len-1].faceId
-        }, function(error, res, body) {
-            console.log(body)
-            //facesMS.push(body[0]);
-          result = body.isIdentical +", "+ body.confidence*100 + "%";
-        });
-    }
+    setTimeout(
+     function(){
+        if(len > 1) {
+            /*for(var i=0; i<len; i++) {
+                facesMS[i].faceId;
+            }*/
 
+            msFace.api('verify', 'POST', {}, {
+              faceId1: facesMS[len-2].faceId,
+              faceId2: facesMS[len-1].faceId
+            }, function(error, res, body) {
+                console.log(body)
+                //facesMS.push(body[0]);
+              result = "Between latest photo and previous one, it's " body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
+            });
+        }
+     },2000);
   sendTextMessage(recipientId, result);
 }
 
@@ -771,7 +781,7 @@ else {
 function sendAllMessage(recipientId) {
     var len = messageAttachedImages.length;
     if(len>0) {
-        sendTextMessage(recipientId, "I am having.. ");
+        sendTextMessage(recipientId, "Let me see..");
         for(var i=0; i<len; i++) {
           var messageData = {
             recipient: {
