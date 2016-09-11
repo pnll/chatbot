@@ -294,7 +294,7 @@ function receivedMessage(event) {
             var personId = '2c0681cb-5d2c-4d10-b287-ab7910c26eb7';
             var url = 'persongroups/'+personGroupId+'/persons/'+personId+'/persistedFaces';
             msFace.api(url, 'POST', {}, {
-                url: messageAttachedImages[len-1];
+                url: messageAttachedImages[len-1]
             }, function(error, res, body) {
                 console.log("##### BODY " + util.inspect(body, false, null));
                 console.log("##### ERR " + util.inspect(error, false, null));
