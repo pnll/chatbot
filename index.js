@@ -345,8 +345,8 @@ function receivedMessage(event) {
     // the text we received.
     switch (messageText.toLowerCase()) {
       case 'p': //pick
-      case 'pick':
-      case 'pick me':
+      //case 'pick':
+      //case 'pick me':
         sendPickMessage(senderID);
         break;
             
@@ -361,6 +361,8 @@ function receivedMessage(event) {
 
       case 'f':
       case 'face':
+      case 'comp':
+      case 'compare':
         sendFaceMessage(senderID);
         break;
             
@@ -666,26 +668,34 @@ function sendFaceMessage(recipientId) {
   callSendAPI(messageData);
 
     var len = facesMS.length;
-    var result = "Sorry? Pandora's box wants over 2 photos"
-    setTimeout(
-     function(){
-        if(len > 1) {
-            /*for(var i=0; i<len; i++) {
-                facesMS[i].faceId;
-            }*/
+    var result = "Sorry? Pandora's box wants over 2 photos ;)"
+    if(len > 1) {
+        /*for(var i=0; i<len; i++) {
+            facesMS[i].faceId;
+        }*/
 
-            msFace.api('verify', 'POST', {}, {
-              faceId1: facesMS[len-2].faceId,
-              faceId2: facesMS[len-1].faceId
-            }, function(error, res, body) {
-                console.log(body)
-                //facesMS.push(body[0]);
-              result = "Similarity between latest photo and previous one, it's "+ body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
-                sendTextMessage(recipientId, result);
-            });
-        }
-     }, 3000);
-  sendTextMessage(recipientId, result);
+        msFace.api('verify', 'POST', {}, {
+          faceId1: facesMS[len-2].faceId,
+          faceId2: facesMS[len-1].faceId
+        }, function(error, res, body) {
+            console.log(body)
+            //facesMS.push(body[0]);
+          result = "Similarity between latest photo and previous one, it's "+ body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
+            sendTextMessage(recipientId, result);
+        });
+    }
+    else {
+        messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              text: result,
+              metadata: "Typing_off"
+            }
+        };
+        callSendAPI(messageData);
+    }
 }
 function sendIUMessage(recipientId) {
   var messageData = {
@@ -699,7 +709,7 @@ function sendIUMessage(recipientId) {
     var personGroupId = 'test_group1';
     var personId = '2c0681cb-5d2c-4d10-b287-ab7910c26eb7';
     var len = facesMS.length;
-    var result = "need new photo for comparison"
+    var result = "Pandora needs new photo for comparison"
     if(len > 0) {
         msFace.api('verify', 'POST', {}, {
           faceId: facesMS[len-1].faceId,
@@ -707,11 +717,22 @@ function sendIUMessage(recipientId) {
           personGroupId: personGroupId
         }, function(error, res, body) {
           console.log(body)
-          result = "[IU] Similarity between latest photo and IU, it seems.. "+ body.isIdentical +", has confidence of "+ body.confidence*100 + "%";
+          result = "[IU] Similarity between latest photo and 'IU', it seems.. "+ body.isIdentical +", has confidence of "+ body.confidence*100 + "%";
           sendTextMessage(recipientId, result);
         });
     }
-    else sendTextMessage(recipientId, result);  
+    else {
+        messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              text: result,
+              metadata: "Typing_off"
+            }
+        };
+        callSendAPI(messageData);
+    }
 }
 
 /* add pick */
