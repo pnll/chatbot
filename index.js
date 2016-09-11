@@ -391,6 +391,9 @@ function receivedMessage(event) {
       case 'iu':
         sendIUMessage(senderID);
         break;
+      case 'how old': //how old am I?
+        sendGuessMessage(senderID);
+        break;
 
       case 'image':
         sendImageMessage(senderID);
@@ -451,7 +454,7 @@ function receivedMessage(event) {
       var url = messageAttachments[0].payload.url;
       messageAttachedImages.push(url);
     //sendTextMessage(senderID, "Message with attachment received");
-    sendTextMessage(senderID, url);
+    //sendTextMessage(senderID, url);
     sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
@@ -728,6 +731,61 @@ function sendIUMessage(recipientId) {
             },
             message: {
               text: result,
+              metadata: "Typing_off"
+            }
+        };
+        callSendAPI(messageData);
+    }
+}
+function sendGuessMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
+    
+    var urls = messageAttachedImages;
+    var len = urls.length;
+    if(len > 0) {
+                var obj = urls[len-1];
+                //container.innerHTML += "<img src='"+obj.value+"' width='100px'>";
+                console.log("##### SBPN ##### "+obj); //+FacePP);
+                maxImg = obj;
+                
+                var parameters = {
+                    url: obj
+                    //attribute: 'gender,age'
+                };
+                fpp.get('detection/detect', parameters, function(err, res) {
+                  if (err) {
+                    // TODO handle error
+                      console.log('Error from Server response');
+                    return;
+                  }                    
+                    //console.log(res);
+                    console.log(util.inspect(res, false, null))
+                    // TODO use result
+                    var score = 0;
+                    if(res.face.length != 0) {
+                        var attr = res.face[0].attribute;
+                        var age = attr.age.value;
+                        var gender = attr.gender.value;
+                        var url = res.url;
+                      var result = "I guess.. "+ age +" years old and "+ gender + "?";
+                      sendTextMessage(recipientId, result);
+                    }
+                    else sendTextMessage(recipientId, "There is no Face");
+                });
+    }
+    else {
+        messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              text: "Show me the face which you want to know how old",
               metadata: "Typing_off"
             }
         };
@@ -1022,7 +1080,7 @@ function sendClearMessage(recipientId) {
 }
 function sendHelpMessage(recipientId) {
     sendTextMessage(recipientId, "First of all, send your photos and next,");
-    sendTextMessage(recipientId, "You can say including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU' :D");
+    sendTextMessage(recipientId, "You can say including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. 'how old' :D");
     sendTextMessage(recipientId, "'IU' will compare between your photo and the face of IU.");
 }
 function sendImageMessage(recipientId) {
