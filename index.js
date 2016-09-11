@@ -272,7 +272,8 @@ function receivedMessage(event) {
           name: '#IU',
           userData: 'Singer'
         }, function(error, res, body) {
-            console.log("##### ID " + body);
+            console.log("##### BODY " + util.inspect(body, false, null));
+            console.log("##### RES " + util.inspect(res, false, null));
             if(res.statusCode==200) sendTextMessage(senderID, "Good, completed");
           return body;
         });          
