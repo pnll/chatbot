@@ -273,7 +273,7 @@ function receivedMessage(event) {
           userData: 'Singer'
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
-            console.log("##### RES " + util.inspect(res, false, null));
+            //console.log("##### RES " + util.inspect(res, false, null));
             if(body.statusCode==200) sendTextMessage(senderID, "Good, completed");
             else sendTextMessage(senderID, body.statusCode+", "+body.message);
           return body;
@@ -282,7 +282,7 @@ function receivedMessage(event) {
       }
       if (messageText.substring(0, 1) == '@') {
         //Create a persongroups
-        msFace.api('persongroups', 'PUT', {'group_id0'}, {
+        msFace.api('persongroups', 'PUT', {faceListId}, {
           name: 'group0',
           userData: 'test group1'
         }, function(error, res, body) {
