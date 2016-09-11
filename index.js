@@ -364,12 +364,13 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-      messageAttachedImages.push(messageAttachments[0].payload.url);
+      var url = messageAttachments[0].payload.url;
+      messageAttachedImages.push(url);
     //sendTextMessage(senderID, "Message with attachment received");
-    sendTextMessage(senderID, messageAttachments[0].payload.url);
+    sendTextMessage(senderID, url);
     sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
       console.log("SBPN1 "+messageAttachments);
-      console.log("SBPN2 "+messageAttachments[0].payload.url);
+      console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null))
       
     callFaceAPI('detect', url);
