@@ -266,7 +266,7 @@ function receivedMessage(event) {
   }
 
   if (messageText) {
-      if (messageText.[0] == '#') {
+      if (messageText.substring(0, 1) == '#') {
           // #[Amy] is [my best friend]
         msFace.api('facelists', 'PUT', {}, {
           name: '#IU',
