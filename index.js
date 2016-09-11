@@ -269,12 +269,13 @@ function receivedMessage(event) {
       if (messageText.substring(0, 1) == '#') {
           // #[Amy] is [my best friend]
           // function(url, method, option, data, cb)
-        var faceListId = 'faceList_id1';
+        var faceListId = 'facelist_id1';
         msFace.api('facelists/'+faceListId, 'PUT', {}, {
           name: '#IU',
           userData: 'Singer'
         }, function(error, res, body) {
             console.log("##### BODY " + util.inspect(body, false, null));
+            console.log("##### ERR " + util.inspect(error, false, null));
             //console.log("##### RES " + util.inspect(res, false, null));
             /*if(body.statusCode==200) sendTextMessage(senderID, "Good, completed");
             else {
@@ -286,41 +287,34 @@ function receivedMessage(event) {
         //sendTextMessage(senderID, messageText + " is created.");
       }
       if (messageText.substring(0, 1) == '@') {
-        //Create a persongroups
-        var personGroupId = 'test_group1';
-        var url = 'persongroups/'+personGroupId;
-        msFace.api(url, 'PUT', {}, {
-          name: 'group0',
-          userData: 'test group1'
-        }, function(error, res, body) {
-            console.log("##### BODY " + util.inspect(body, false, null));
-            //console.log("##### RES " + util.inspect(res, false, null));
-            /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
-            else {
-                sendTextMessage(senderID, body.statusCode+", "+body.message);    
-                sendTextMessage(senderID, body.error.code+", "+body.error.message);    
-            }*/
-          return body;
-        });
-        //Create a person
-          //personGroupId = 'test_group1';
-          url = 'persongroups/'+personGroupId+'/persons';
-        msFace.api(url, 'POST', {}, {
-          name: 'person0',
-          userData: 'test p1'
-        }, function(error, res, body) {
-            console.log("##### BODY " + util.inspect(body, false, null));
-            //console.log("##### RES " + util.inspect(res, false, null));
-            /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
-            else {
-                sendTextMessage(senderID, body.statusCode+", "+body.message);    
-                sendTextMessage(senderID, body.error.code+", "+body.error.message);    
-            }*/
-          return body;
-        });          
-          sendTextMessage(senderID, messageText + " is OK.");
-      }
+          var len = messageAttachedImages.length;
+          if(len > 0) {
+            //face persisted
+            var personGroupId = 'test_group1';
+            var personId = '2c0681cb-5d2c-4d10-b287-ab7910c26eb7';
+            var url = 'persongroups/'+personGroupId+'/persons/'+personId+'/persistedFaces';
+            msFace.api(url, 'POST', {}, {
+                url: messageAttachedImages[len-1];
+            }, function(error, res, body) {
+                console.log("##### BODY " + util.inspect(body, false, null));
+                console.log("##### ERR " + util.inspect(error, false, null));
+                //console.log("##### RES " + util.inspect(res, false, null));
+                /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
+                else {
+                    sendTextMessage(senderID, body.statusCode+", "+body.message);    
+                    sendTextMessage(senderID, body.error.code+", "+body.error.message);    
+                }*/
+              return body;
+            });          
+            sendTextMessage(senderID, messageText + " @ is OK.");
+          }
+          else sendTextMessage(senderID, "@ need to send the Face image");
 
+      }
+      
+    if (~messageText.toLowerCase().indexOf('pick')) {
+      sendPickMessage(senderID);
+    }
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
@@ -434,6 +428,68 @@ function receivedMessage(event) {
       
     callFaceAPI('detect', url);
   }
+}
+
+
+function createPerson() {
+        //Create a persongroups
+        var personGroupId = 'test_group1';
+        var url = 'persongroups/'+personGroupId;
+        msFace.api(url, 'PUT', {}, {
+          name: 'group0',
+          userData: 'test group1'
+        }, function(error, res, body) {
+            console.log("##### BODY " + util.inspect(body, false, null));
+            console.log("##### ERR " + util.inspect(error, false, null));
+            //console.log("##### RES " + util.inspect(res, false, null));
+            /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a persongroups] completed");
+            else {
+                sendTextMessage(senderID, body.statusCode+", "+body.message);    
+                sendTextMessage(senderID, body.error.code+", "+body.error.message);    
+            }*/
+          return body;
+        });
+        //Create a person
+          //personGroupId = 'test_group1';
+        url = 'persongroups/'+personGroupId+'/persons';
+        msFace.api(url, 'POST', {}, {
+          name: 'person0',
+          userData: 'test p1'
+        }, function(error, res, body) {
+            console.log("##### BODY " + util.inspect(body, false, null));
+            console.log("##### ERR " + util.inspect(error, false, null));
+            
+            body.personId;
+            //console.log("##### RES " + util.inspect(res, false, null));
+            /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
+            else {
+                sendTextMessage(senderID, body.statusCode+", "+body.message);    
+                sendTextMessage(senderID, body.error.code+", "+body.error.message);    
+            }*/
+          return body;
+        });
+          if(facesMS.length > 0) {
+              var faceId = facesMS[len-1].faceId;
+            url = 'persongroups/'+personGroupId+'/persons';
+            msFace.api(url, 'POST', {}, {
+              name: 'person0',
+              userData: 'test p1'
+            }, function(error, res, body) {
+                console.log("##### BODY " + util.inspect(body, false, null));
+                console.log("##### ERR " + util.inspect(error, false, null));
+
+                body.personId;
+                //console.log("##### RES " + util.inspect(res, false, null));
+                /*if(body.statusCode==200) sendTextMessage(senderID, "Good, [Create a person] completed");
+                else {
+                    sendTextMessage(senderID, body.statusCode+", "+body.message);    
+                    sendTextMessage(senderID, body.error.code+", "+body.error.message);    
+                }*/
+              return body;
+            });
+
+          }
+    
 }
 
 
