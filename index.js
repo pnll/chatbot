@@ -18,7 +18,10 @@ const
   https = require('https'),  
   request = require('request');
 const util = require('util');
-
+const faceAPI = require('mt-face-api');
+ 
+var msFace = new faceAPI("a709bb7843e344c49fee014ffa178ea7");
+ 
 var FacePP = require('./lib/facepp-sdk.js');
 
 var fpp = require('face-plus-plus');
@@ -277,6 +280,11 @@ function receivedMessage(event) {
       case 'reset':
         sendClearMessage(senderID);
         break;
+
+      case 'f':
+      case 'face':
+        sendFaceMessage(senderID);
+        break;
             
       case 'hi':
       case 'hey':
@@ -498,12 +506,27 @@ function receivedAccountLink(event) {
             //res.innerHTML += max + " = <img src='"+maxImg+"' width='100px'>";
 
         }
+
+
+function sendFaceMessage(recipientId) {
+    var len = messageAttachedImages.length;
+    var result = "sorry?"
+    if(len != 0) {
+        var url = messageAttachedImages[len-1];
+        result = callFaceAPI('detect', faceData)
+        
+    }
+
+  sendTextMessage(recipientId, result);
+}
+
+
 /* add pick */
 function sendPickMessage(recipientId) {
-          if(messageAttachedImages.length == 0) {
-              sendTextMessage(recipientId, "I have nothing :O please show me your photos");
-          }
-    else {
+  if(messageAttachedImages.length == 0) {
+      sendTextMessage(recipientId, "I have nothing :O please show me your photos");
+  }
+else {
     
   var messageData = {
     recipient: {
@@ -1150,6 +1173,16 @@ function sendAccountLinking(recipientId) {
   };  
 
   callSendAPI(messageData);
+}
+
+
+function callFaceAPI(type, faceData) {
+    msFace.api(type, 'POST', {}, {
+      url: faceData
+    }, function(error, res, body) {
+        console.log(body)
+      return body;
+    });
 }
 
 /*
