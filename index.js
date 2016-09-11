@@ -540,7 +540,7 @@ function sendFaceMessage(recipientId) {
             }, function(error, res, body) {
                 console.log(body)
                 //facesMS.push(body[0]);
-              result = "Between latest photo and previous one, it's " body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
+              result = "Between latest photo and previous one, it's "+ body.isIdentical +", I have confidence of "+ body.confidence*100 + "%";
             });
         }
      },2000);
