@@ -513,8 +513,7 @@ function sendFaceMessage(recipientId) {
     var result = "sorry?"
     if(len != 0) {
         var url = messageAttachedImages[len-1];
-        result = callFaceAPI('detect', faceData)
-        
+        result = callFaceAPI('detect', url);
     }
 
   sendTextMessage(recipientId, result);
