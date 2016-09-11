@@ -322,8 +322,6 @@ function receivedMessage(event) {
                     sendTextMessage(senderID, body.error.code+", "+body.error.message);    
                 }
                 
-                persongroups/{personGroupId}/persons/{personId}
-                
               return body;
             });          
             sendTextMessage(senderID, messageText + " @ is OK.");
