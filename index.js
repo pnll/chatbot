@@ -277,6 +277,10 @@ function receivedMessage(event) {
         sendPickMessage(senderID);
         break;
             
+      case 'all':
+      case 'show me':
+        sendAllMessage(senderID);
+        break;
       case 'clear':
       case 'reset':
         sendClearMessage(senderID);
@@ -526,10 +530,8 @@ function sendFaceMessage(recipientId) {
         }, function(error, res, body) {
             console.log(body)
             //facesMS.push(body[0]);
-          result = res.isIdentical +", "+ res.confidence*100 + "%";
+          result = body.isIdentical +", "+ body.confidence*100 + "%";
         });
-        //var url = messageAttachedImages[len-1];
-        //result = callFaceAPI('detect', url);
     }
 
   sendTextMessage(recipientId, result);
@@ -765,6 +767,30 @@ else {
 
   callSendAPI(messageData);
   */
+}
+function sendAllMessage(recipientId) {
+    var len = messageAttachedImages.length;
+    if(len>0) {
+        sendTextMessage(recipientId, "I am having.. ");
+        for(var i=0; i<len; i++) {
+          var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "image",
+                payload: {
+                  url: messageAttachedImages[i]
+                }
+              }
+            }
+          };
+          callSendAPI(messageData);
+        }
+    }
+    else sendTextMessage(recipientId, "Nothing");
+
 }
 function sendSelfImageMessage(recipientId) {
     var arr = ["bot.jpg","b1.gif","b2.gif","b3.gif"]
