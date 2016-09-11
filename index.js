@@ -322,9 +322,20 @@ function receivedMessage(event) {
                     sendTextMessage(senderID, body.error.code+", "+body.error.message);    
                 }
                 
+                persongroups/{personGroupId}/persons/{personId}
+                
               return body;
             });          
             sendTextMessage(senderID, messageText + " @ is OK.");
+              
+            url = 'persongroups/'+personGroupId+'/persons/'+personId;
+            msFace.api(url, 'GET', {}, {}, function(error, res, body) {
+                console.log("##### BODY " + util.inspect(body, false, null));
+                console.log("##### ERR " + util.inspect(error, false, null));
+                //console.log("##### RES " + util.inspect(res, false, null));
+              return body;
+            });
+              
           }
           else sendTextMessage(senderID, "@ need to send the Face image");
 
