@@ -395,6 +395,17 @@ function receivedMessage(event) {
         sendGuessMessage(senderID);
         break;
 
+            
+
+      case '여자친구':
+        sendMessage1(senderID);
+        break;
+      case 'how old': //how old am I?
+        sendGuessMessage(senderID);
+        break;
+            
+            
+            
       case 'image':
         sendImageMessage(senderID);
         break;
@@ -788,6 +799,51 @@ function sendGuessMessage(recipientId) {
         };
         callSendAPI(messageData);
     }
+}
+
+function sendMessage1(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "총 27장을 전송받았습니다. 어디에 저장할까요?",
+      metadata: "DEVELOPER_DEFINED_METADATA",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"카메라 앨범",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+        },
+        {
+          "content_type":"text",
+          "title":"다운로드 폴더",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+        },
+        {
+          "content_type":"text",
+          "title":"메신저 폴더",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+        },
+        {
+          "content_type":"text",
+          "title":"FRAS 폴더",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
+        }
+      ]
+    }
+  };
+  callSendAPI(messageData);
+    
+ var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "저장을 완료했습니다.",
+    }
+  };
+  callSendAPI(messageData);
 }
 
 /* add pick */
