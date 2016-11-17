@@ -1475,7 +1475,7 @@ function sendDemo2(recipientId) {
           text: "오늘 찍은 사진 중 남자친구가 나온 사진을 27장 발견했습니다. 어떻게 공유할까요?",
           buttons:[{
             type: "postback",
-            title: "남자친구가 나온 사진 전부"
+            title: "남자친구가 나온 사진 전부",
             payload: "DEVELOPED_DEFINED_PAYLOAD"
           }, {
             type: "postback",
