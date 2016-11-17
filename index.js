@@ -1492,6 +1492,50 @@ function sendDemo2(recipientId) {
   };  
 
   callSendAPI(messageData);
+
+    setTimeout(
+     function(){
+ var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "17장 공유를 완료했습니다.",
+    }
+  };
+  callSendAPI(messageData);
+         
+             setTimeout(
+     function(){
+         
+   var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "앞으로도 남자친구 사진이 보이면 자동으로 공유할까요?",
+      metadata: "DEVELOPER_DEFINED_METADATA",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"예",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_YES"
+        },
+        {
+          "content_type":"text",
+          "title":"아니요",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_NO"
+        }
+      ]
+    }
+  };
+
+  callSendAPI(messageData);
+                  
+         },4000);
+         
+         
+    },4000);
 }
 function sendDemo3(recipientId) {
   var messageData = {
