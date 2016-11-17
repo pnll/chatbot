@@ -1542,11 +1542,11 @@ function sendDemo2(recipientId) {
                                             }
                                           };
                                           callSendAPI(messageData);
-                                },4000);
-         },4000);
+                                },6000);
+         },6000);
          
          
-    },4000);
+    },8000);
 }
 function sendDemo3(recipientId) {
   var messageData = {
