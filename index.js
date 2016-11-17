@@ -261,7 +261,8 @@ function receivedMessage(event) {
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
+    //sendTextMessage(senderID, "Quick reply tapped");
+    sendTextMessage(senderID, "메신저 폴더를 선택하셨습니다.");
     return;
   }
 
@@ -396,11 +397,16 @@ function receivedMessage(event) {
         break;
 
             
-
+      case '안녕':
+      case '똑똑':
+        sendTextMessage(senderID, "안녕하세요. 제게 사진을 보여주시면 공유를 도와드리겠습니다.");
+        break;
       case '친구':
       case '여자친구':
-      case '남자친구':
         sendMessage1(senderID);
+        break;
+      case '남자친구':
+        sendDemo2(senderID);
         break;
       case 'how old': //how old am I?
         sendGuessMessage(senderID);
@@ -1455,6 +1461,38 @@ function sendQuickReply(recipientId) {
 
   callSendAPI(messageData);
 }
+
+function sendDemo2(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "오늘 찍은 사진 중 남자친구가 나온 사진을 27장 발견했습니다. 어떻게 공유할까요?",
+      metadata: "DEVELOPER_DEFINED_METADATA",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"남자친구가 나온 사진 전부",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+        },
+        {
+          "content_type":"text",
+          "title":"남자친구와 내가 나온 사진을 전부",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+        },
+        {
+          "content_type":"text",
+          "title":"내가 안 나온 남자친구 사진만",
+          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
+        }
+      ]
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
 
 /*
  * Send a read receipt to indicate the message has been read
