@@ -596,7 +596,8 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  //sendTextMessage(senderID, "Postback called");
+  sendTextMessage(senderID, "내가 안 나온 남자친구 사진만 공유하겠습니다.");
 }
 
 /*
@@ -1461,8 +1462,38 @@ function sendQuickReply(recipientId) {
 
   callSendAPI(messageData);
 }
-
 function sendDemo2(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "오늘 찍은 사진 중 남자친구가 나온 사진을 27장 발견했습니다. 어떻게 공유할까요?",
+          buttons:[{
+            type: "postback",
+            title: "남자친구가 나온 사진 전부"
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }, {
+            type: "postback",
+            title: "남자친구와 내가 나온 사진을 전부",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }, {
+            type: "postback",
+            title: "내가 안 나온 남자친구 사진만",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }]
+        }
+      }
+    }
+  };  
+
+  callSendAPI(messageData);
+}
+function sendDemo3(recipientId) {
   var messageData = {
     recipient: {
       id: recipientId
