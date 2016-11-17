@@ -262,7 +262,7 @@ function receivedMessage(event) {
       messageId, quickReplyPayload);
 
     //sendTextMessage(senderID, "Quick reply tapped");
-    sendTextMessage(senderID, quickReplyPayload+"(을)를 선택하셨습니다.");
+    sendTextMessage(senderID, quickReplyPayload+"를 선택하셨습니다.");
     return;
   }
 
@@ -597,7 +597,7 @@ function receivedPostback(event) {
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
   //sendTextMessage(senderID, "Postback called");
-  sendTextMessage(senderID, event.postback.title + " 공유하겠습니다.");
+  sendTextMessage(senderID, payload + " 공유하겠습니다.");
 }
 
 /*
@@ -1476,15 +1476,15 @@ function sendDemo2(recipientId) {
           buttons:[{
             type: "postback",
             title: "남자친구가 나온 사진 전부",
-            payload: "DEVELOPED_DEFINED_PAYLOAD"
+            payload: "남자친구가 나온 사진 전부"
           }, {
             type: "postback",
-            title: "남자친구와 내가 나온 사진을 전부",
-            payload: "DEVELOPED_DEFINED_PAYLOAD"
+            title: "남자친구와 내가 나온 사진 전부",
+            payload: "남자친구와 내가 나온 사진 전부"
           }, {
             type: "postback",
             title: "내가 안 나온 남자친구 사진만",
-            payload: "DEVELOPED_DEFINED_PAYLOAD"
+            payload: "내가 안 나온 남자친구 사진만"
           }]
         }
       }
@@ -1538,7 +1538,7 @@ function sendDemo2(recipientId) {
                                               id: recipientId
                                             },
                                             message: {
-                                              text: "남자친구 사진들은 남자친구에게 자동으로 공유되도록 설정했습니다.",
+                                              text: "남자친구 사진은 항상 남자친구에게 자동으로 공유되도록 설정했습니다.",
                                             }
                                           };
                                           callSendAPI(messageData);
