@@ -686,7 +686,7 @@ function sendFaceMessage(recipientId) {
 
     var len = facesMS.length;
     var result = "Sorry? Pandora's box wants over 2 photos ;)"
-    if(len > 1) {
+    if(len > 1 && facesMS[len-2].faceId != null && facesMS[len-1].faceId != null) {
         /*for(var i=0; i<len; i++) {
             facesMS[i].faceId;
         }*/
