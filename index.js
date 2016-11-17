@@ -1531,7 +1531,18 @@ function sendDemo2(recipientId) {
   };
 
   callSendAPI(messageData);
-                  
+                               setTimeout(
+                                    function(){
+                                         var messageData = {
+                                            recipient: {
+                                              id: recipientId
+                                            },
+                                            message: {
+                                              text: "남자친구 사진들은 남자친구에게 자동으로 공유되도록 설정했습니다.",
+                                            }
+                                          };
+                                          callSendAPI(messageData);
+                                },4000);
          },4000);
          
          
