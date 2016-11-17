@@ -262,7 +262,7 @@ function receivedMessage(event) {
       messageId, quickReplyPayload);
 
     //sendTextMessage(senderID, "Quick reply tapped");
-    sendTextMessage(senderID, "메신저 폴더를 선택하셨습니다.");
+    sendTextMessage(senderID, quickReplyPayload+"(을)를 선택하셨습니다.");
     return;
   }
 
@@ -597,7 +597,7 @@ function receivedPostback(event) {
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
   //sendTextMessage(senderID, "Postback called");
-  sendTextMessage(senderID, "내가 안 나온 남자친구 사진만 공유하겠습니다.");
+  sendTextMessage(senderID, event.postback.title + " 공유하겠습니다.");
 }
 
 /*
@@ -825,22 +825,22 @@ function sendMessage1(recipientId) {
         {
           "content_type":"text",
           "title":"카메라 앨범",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
+          "payload":"카메라 앨범"
         },
         {
           "content_type":"text",
           "title":"다운로드 폴더",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+          "payload":"다운로드 폴더"
         },
         {
           "content_type":"text",
           "title":"메신저 폴더",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
+          "payload":"메신저 폴더"
         },
         {
           "content_type":"text",
           "title":"FRAS 폴더",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
+          "payload":"FRAS 폴더"
         }
       ]
     }
@@ -1519,12 +1519,12 @@ function sendDemo2(recipientId) {
         {
           "content_type":"text",
           "title":"예",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_YES"
+          "payload":"예"
         },
         {
           "content_type":"text",
           "title":"아니요",
-          "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_NO"
+          "payload":"아니요"
         }
       ]
     }
