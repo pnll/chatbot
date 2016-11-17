@@ -1546,7 +1546,7 @@ function sendDemo2(recipientId) {
          },6000);
          
          
-    },8000);
+    },10000);
 }
 function sendDemo3(recipientId) {
   var messageData = {
