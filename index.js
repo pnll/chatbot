@@ -397,7 +397,9 @@ function receivedMessage(event) {
 
             
 
+      case '친구':
       case '여자친구':
+      case '남자친구':
         sendMessage1(senderID);
         break;
       case 'how old': //how old am I?
@@ -837,7 +839,9 @@ function sendMessage1(recipientId) {
     }
   };
   callSendAPI(messageData);
-    
+
+    setTimeout(
+     function(){
  var messageData = {
     recipient: {
       id: recipientId
@@ -847,6 +851,7 @@ function sendMessage1(recipientId) {
     }
   };
   callSendAPI(messageData);
+         },8000);
 }
 
 /* add pick */
