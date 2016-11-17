@@ -466,7 +466,10 @@ function receivedMessage(event) {
       messageAttachedImages.push(url);
     //sendTextMessage(senderID, "Message with attachment received");
     //sendTextMessage(senderID, url);
-    sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
+    
+    //ori
+    //sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
+    sendTextMessage(senderID, "사진에서 1명의 얼굴을 인식했습니다. 이 사람은 누구인가요?");
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null))
@@ -723,7 +726,7 @@ function sendIUMessage(recipientId) {
     var personGroupId = 'test_group1';
     var personId = '2c0681cb-5d2c-4d10-b287-ab7910c26eb7';
     var len = facesMS.length;
-    var result = "Pandora needs new photo for comparison"
+    var result = "FRAS needs new photo for comparison"
     if(len > 0) {
         msFace.api('verify', 'POST', {}, {
           faceId: facesMS[len-1].faceId,
