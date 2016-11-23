@@ -262,7 +262,7 @@ function receivedMessage(event) {
       messageId, quickReplyPayload);
 
     //sendTextMessage(senderID, "Quick reply tapped");
-    sendTextMessage(senderID, quickReplyPayload+"를 선택하셨습니다.");
+    //sendTextMessage(senderID, quickReplyPayload+"를 선택하셨습니다."); //잠깐 삭제
     return;
   }
 
