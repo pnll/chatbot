@@ -1494,18 +1494,64 @@ function sendDemo2(recipientId) {
   callSendAPI(messageData);
 
     setTimeout(
-     function(){
- var messageData = {
+        
+        
+            var arr = ["bot.jpg","b1.gif","b2.gif","b3.gif"]
+    var start=1;
+    var end=3;
+    var rand = Math.floor((Math.random() * (end-start+1)) + start);
+    
+  var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: "17장 공유를 완료했습니다.",
+      attachment: {
+        type: "image",
+        payload: {
+          url: SERVER_URL + "/assets/selected.png"
+        }
+      }
     }
   };
+
+    arr = ["bot.jpg",
+               "I am your secretary for photo management, like alter ego. ;) I am trying to read your needs.",
+               "Who am I? :O Let me know-",
+               "I'm your intelligent friend :D"]
   callSendAPI(messageData);
+    
+    
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "17장의 사진을 공유합니다. 전송할까요?",
+      metadata: "DEVELOPER_DEFINED_METADATA",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"예",
+          "payload":"예"
+        },
+        {
+          "content_type":"text",
+          "title":"아니요",
+          "payload":"아니요"
+        }
+      ]
+    }
+  };
+    
+  callSendAPI(messageData);
+    
+    
+        
+     function(){
+         sendTextMessage(recipientId, "17장 공유를 완료했습니다.");
          
-             setTimeout(
+         setTimeout(
      function(){
          
    var messageData = {
@@ -1542,8 +1588,8 @@ function sendDemo2(recipientId) {
                                             }
                                           };
                                           callSendAPI(messageData);
-                                },6000);
-         },6000);
+                                },5000);
+         },3000);
          
          
     },10000);
