@@ -1472,7 +1472,7 @@ function sendDemo2(recipientId) {
         type: "template",
         payload: {
           template_type: "button",
-          text: "오늘 찍은 사진 중 남자친구가 나온 사진을 27장 발견했습니다. 어떻게 공유할까요?",
+          text: "오늘의 사진 중 [남자친구]가 나온 사진을 27장 발견했습니다. 어떻게 공유할까요?",
           buttons:[{
             type: "postback",
             title: "남자친구가 나온 사진 전부",
@@ -1513,7 +1513,7 @@ function sendDemo2(recipientId) {
       id: recipientId
     },
     message: {
-      text: "앞으로도 남자친구 사진이 보이면 자동으로 공유할까요?",
+      text: "앞으로도 [남자친구] 사진이 보이면 자동으로 공유할까요?",
       metadata: "DEVELOPER_DEFINED_METADATA",
       quick_replies: [
         {
@@ -1538,7 +1538,7 @@ function sendDemo2(recipientId) {
                                               id: recipientId
                                             },
                                             message: {
-                                              text: "남자친구 사진은 항상 남자친구에게 자동으로 공유되도록 설정했습니다.",
+                                              text: "[남자친구] 사진은 항상 [남자친구]에게 자동으로 공유되도록 설정했습니다.",
                                             }
                                           };
                                           callSendAPI(messageData);
@@ -1554,22 +1554,22 @@ function sendDemo3(recipientId) {
       id: recipientId
     },
     message: {
-      text: "오늘 찍은 사진 중 남자친구가 나온 사진을 27장 발견했습니다. 어떻게 공유할까요?",
+      text: "오늘 찍은 사진 중 [남자친구]가 나온 사진을 27장 발견했습니다. 어떻게 공유할까요?",
       metadata: "DEVELOPER_DEFINED_METADATA",
       quick_replies: [
         {
           "content_type":"text",
-          "title":"남자친구가 나온 사진 전부",
+          "title":"[남자친구]만 나온 사진",
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION"
         },
         {
           "content_type":"text",
-          "title":"남자친구와 내가 나온 사진을 전부",
+          "title":"내가 나온 사진은 제외하고",
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY"
         },
         {
           "content_type":"text",
-          "title":"내가 안 나온 남자친구 사진만",
+          "title":"나와 [남자친구] 사진 모두",
           "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA"
         }
       ]
