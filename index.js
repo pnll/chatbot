@@ -1510,11 +1510,6 @@ function sendDemo2(recipientId) {
       }
     }
   };
-
-    arr = ["bot.jpg",
-               "I am your secretary for photo management, like alter ego. ;) I am trying to read your needs.",
-               "Who am I? :O Let me know-",
-               "I'm your intelligent friend :D"]
   callSendAPI(messageData);
     
     
