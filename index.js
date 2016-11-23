@@ -1495,12 +1495,8 @@ function sendDemo2(recipientId) {
 
     setTimeout(
         
+    function(){
         
-            var arr = ["bot.jpg","b1.gif","b2.gif","b3.gif"]
-    var start=1;
-    var end=3;
-    var rand = Math.floor((Math.random() * (end-start+1)) + start);
-    
   var messageData = {
     recipient: {
       id: recipientId
@@ -1548,6 +1544,7 @@ function sendDemo2(recipientId) {
     
     
         
+    setTimeout(
      function(){
          sendTextMessage(recipientId, "17장 공유를 완료했습니다.");
          
@@ -1593,6 +1590,7 @@ function sendDemo2(recipientId) {
          
          
     },10000);
+    },4000);
 }
 function sendDemo3(recipientId) {
   var messageData = {
