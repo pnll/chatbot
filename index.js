@@ -1539,7 +1539,7 @@ function sendDemo2(recipientId) {
   };
     
   callSendAPI(messageData);
-    },2000);
+    },3000);
     
         
     setTimeout(
@@ -1584,7 +1584,7 @@ function sendDemo2(recipientId) {
                                           };
                                           callSendAPI(messageData);
                                 },5000);
-         },3000);
+         },4000);
          
          
     },10000);
