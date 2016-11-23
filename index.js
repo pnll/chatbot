@@ -1511,14 +1511,17 @@ function sendDemo2(recipientId) {
     }
   };
   callSendAPI(messageData);
+ sendTextMessage(recipientId, "다음 17장의 사진을 공유합니다.");
     
     
-  var messageData = {
+    setTimeout(
+     function(){
+         var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: "17장의 사진을 공유합니다. 전송할까요?",
+      text: "전송할까요?",
       metadata: "DEVELOPER_DEFINED_METADATA",
       quick_replies: [
         {
@@ -1536,7 +1539,7 @@ function sendDemo2(recipientId) {
   };
     
   callSendAPI(messageData);
-    
+    },2000);
     
         
     setTimeout(
