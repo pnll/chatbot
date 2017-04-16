@@ -19,7 +19,6 @@ const
   request = require('request');
 const util = require('util');
 const faceAPI = require('mt-face-api');
-const Translate = require('@google-cloud/translate');
  
 var msFace = new faceAPI("a709bb7843e344c49fee014ffa178ea7");
  
@@ -41,7 +40,7 @@ app.use(express.static('public'));
 
 // [START translate_quickstart]
 // Imports the Google Cloud client library
-//const Translate = require('@google-cloud/translate');
+const Translate = require('@google-cloud/translate');
 
 // Your Google Cloud Platform project ID
 const projectId = 'translate-0';
@@ -73,7 +72,7 @@ translateClient.translate(text, target)
 function detectLanguage (text, senderID) {
   // [START translate_detect_language]
   // Imports the Google Cloud client library
-  //const Translate = require('@google-cloud/translate');
+  const Translate = require('@google-cloud/translate');
 
   // Instantiates a client
   const translate = Translate();
@@ -84,7 +83,7 @@ function detectLanguage (text, senderID) {
   // Detects the language. "text" can be a string for detecting the language of
   // a single piece of text, or an array of strings for detecting the languages
   // of multiple texts.
-  translateClient.detect(text)
+  translate.detect(text)
     .then((results) => {
       let detections = results[0];
       detections = Array.isArray(detections) ? detections : [detections];
@@ -95,7 +94,7 @@ function detectLanguage (text, senderID) {
       });
       
       //SBPN
-      const target = "ko";
+      target = "ko";
       if(detections[0].language == "ko") {
           target = "en";
       }
@@ -112,7 +111,7 @@ function detectLanguage (text, senderID) {
 function translateText (text, target, senderID) {
   // [START translate_translate_text]
   // Imports the Google Cloud client library
-  //const Translate = require('@google-cloud/translate');
+  const Translate = require('@google-cloud/translate');
 
   // Instantiates a client
   const translate = Translate();
@@ -126,7 +125,7 @@ function translateText (text, target, senderID) {
   // Translates the text into the target language. "text" can be a string for
   // translating a single piece of text, or an array of strings for translating
   // multiple texts.
-  translateClient.translate(text, target)
+  translate.translate(text, target)
     .then((results) => {
       let translations = results[0];
       translations = Array.isArray(translations) ? translations : [translations];
@@ -578,7 +577,6 @@ function receivedMessage(event) {
 
       default:
         detectLanguage(messageText, senderID);
-        //translateText(messageText, target);
         //sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
