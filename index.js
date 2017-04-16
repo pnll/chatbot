@@ -36,6 +36,115 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
+
+
+// [START translate_quickstart]
+// Imports the Google Cloud client library
+const Translate = require('@google-cloud/translate');
+
+// Your Google Cloud Platform project ID
+const projectId = 'translate-0';
+
+// Instantiates a client
+const translateClient = Translate({
+  projectId: projectId
+});
+
+// The text to translate
+const text = 'Hello, world!';
+// The target language
+const target = 'en';
+
+// Translates some text into Russian
+translateClient.translate(text, target)
+  .then((results) => {
+    const translation = results[0];
+
+    console.log(`Text: ${text}`);
+    console.log(`Translation: ${translation}`);
+  })
+  .catch((err) => {
+    console.error('ERROR:', err);
+  });
+// [END translate_quickstart]
+
+
+function detectLanguage (text, senderID) {
+  // [START translate_detect_language]
+  // Imports the Google Cloud client library
+  const Translate = require('@google-cloud/translate');
+
+  // Instantiates a client
+  const translate = Translate();
+
+  // The text for which to detect language, e.g. "Hello, world!"
+  // const text = 'Hello, world!';
+
+  // Detects the language. "text" can be a string for detecting the language of
+  // a single piece of text, or an array of strings for detecting the languages
+  // of multiple texts.
+  translate.detect(text)
+    .then((results) => {
+      let detections = results[0];
+      detections = Array.isArray(detections) ? detections : [detections];
+
+      console.log('Detections:');
+      detections.forEach((detection) => {
+        console.log(`${detection.input} => ${detection.language}`);
+      });
+      
+      //SBPN
+      target = "ko";
+      if(detections[0].language == "ko") {
+          target = "en";
+      }
+      translateText(text, target, senderID);
+      //SBPN
+    })
+    .catch((err) => {
+      console.error('ERROR:', err);
+      sendTextMessage(senderID, text); //SBPN - echo
+    });
+  // [END translate_detect_language]
+}
+
+function translateText (text, target, senderID) {
+  // [START translate_translate_text]
+  // Imports the Google Cloud client library
+  const Translate = require('@google-cloud/translate');
+
+  // Instantiates a client
+  const translate = Translate();
+
+  // The text to translate, e.g. "Hello, world!"
+  // const text = 'Hello, world!';
+
+  // The target language, e.g. "ru"
+  // const target = 'ru';
+
+  // Translates the text into the target language. "text" can be a string for
+  // translating a single piece of text, or an array of strings for translating
+  // multiple texts.
+  translate.translate(text, target)
+    .then((results) => {
+      let translations = results[0];
+      translations = Array.isArray(translations) ? translations : [translations];
+
+      console.log('Translations:');
+      translations.forEach((translation, i) => {
+        console.log(`${text[i]} => (${target}) ${translation}`);
+        sendTextMessage(senderID, translation);
+      });
+    })
+    .catch((err) => {
+      console.error('ERROR:', err);
+      sendTextMessage(senderID, text); //SBPN - echo
+    });
+  // [END translate_translate_text]
+}
+
+
+
 /*
  * Be sure to setup your config values before running this code. You can 
  * set them using environment variables or modifying the config file in /config.
@@ -346,7 +455,7 @@ function receivedMessage(event) {
     // the text we received.
     switch (messageText.toLowerCase()) {
       case 'p': //pick
-      //case 'pick':
+      case 'pick':
       //case 'pick me':
         sendPickMessage(senderID);
         break;
@@ -467,7 +576,8 @@ function receivedMessage(event) {
         break;
 
       default:
-        sendTextMessage(senderID, messageText);
+        detectLanguage(messageText, senderID);
+        //sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
       var url = messageAttachments[0].payload.url;
