@@ -57,7 +57,7 @@ const translateClient = Translate({
 // The text to translate
 const text = 'Hello, world!';
 // The target language
-const target = 'en';
+const target = 'ko';
 
 // Translates some text into Russian
 translateClient.translate(text, target)
@@ -98,7 +98,7 @@ function detectLanguage (text, senderID) {
       });
       
       //SBPN
-      const target = "ko";
+      var target = "ko";
       if(detections[0].language == "ko") {
           target = "en";
       }
