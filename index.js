@@ -48,9 +48,11 @@ const projectId = 'translate-0';
 
 // Instantiates a client
 const translateClient = Translate({
-  projectId: projectId
+  projectId: projectId,
   keyFilename: './config/translate-676b72bc67ed.json'
 });
+// ...you're good to go! See the next section to get started using the APIs.
+
 
 // The text to translate
 const text = 'Hello, world!';
