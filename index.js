@@ -545,6 +545,7 @@ function receivedMessage(event) {
             
       case 'vision': //Google Vision
       case 'read':
+      case 'analysis':
       case '분석':
         sendVisionMessage(senderID);
         break;
@@ -627,7 +628,7 @@ function receivedMessage(event) {
     //sendTextMessage(senderID, url);
     
     //ori
-    //sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
+    sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
     sendTextMessage(senderID, "이 사람은 누구인가요?");
     sendTextMessage(senderID, "사진에서 1명의 새로운 얼굴을 인식했습니다.");
       console.log("SBPN1 "+messageAttachments);
@@ -993,10 +994,13 @@ visionClient.detectLabels(obj)
   })
   .catch((err) => {
     console.error('ERROR:', err);
-    result = err;
+    result = err.errors[0].errors;
   });        
 
-        sendTextMessage(recipientId, result);
+        setTimeout(
+            function(){
+                sendTextMessage(recipientId, result);
+            },3000);
     }
     else {
         messageData = {
@@ -1347,7 +1351,7 @@ function sendClearMessage(recipientId) {
 }
 function sendHelpMessage(recipientId) {
     sendTextMessage(recipientId, "First of all, send your photos and next,");
-    sendTextMessage(recipientId, "You can say including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', 'vision', and so on. :D");
+    sendTextMessage(recipientId, "You can say including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', 'vision/read/analysis', and so on. :D");
     sendTextMessage(recipientId, "'IU' will compare between your photo and the face of IU.");
 }
 function sendImageMessage(recipientId) {
