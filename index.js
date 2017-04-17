@@ -998,10 +998,12 @@ function sendVisionMessage(recipientId) {
         var obj = urls[len-1];
         console.log("##### SBPN ##### URL "+obj);
         var result = "Done";
-        
+
+        request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
 // Covert the image data to a Buffer and base64 encode it.
-var encoded = new Buffer(obj).toString('base64');
+        var tmp = fs.readFileSync('temp.jpg');
+var encoded = new Buffer(tmp).toString('base64');
         console.log("##### SBPN ##### Base64 "+encoded);
         
         
