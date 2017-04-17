@@ -1009,7 +1009,7 @@ function sendVisionMessage(recipientId) {
                 var encoded = new Buffer(tmp).toString('base64');
                 console.log("##### SBPN ##### Base64 "+encoded);
                 
-visionClient.detectLabels(encoded)
+visionClient.detectLabels('temp.jpg')
   .then((results) => {
     const labels = results[0];
 
@@ -1027,9 +1027,6 @@ visionClient.detectLabels(encoded)
   });
             
             },3000);
-        
-        
-        
       
 
         setTimeout(
