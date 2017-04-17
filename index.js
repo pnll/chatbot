@@ -45,6 +45,13 @@ const Vision = require('@google-cloud/vision');
 //var gcloud = require('google-cloud');
 //var Vision = gcloud.vision();
 
+// Read the file into memory.
+var fs = require('fs');
+var imageFile = fs.readFileSync('/path/to/file');
+
+// Covert the image data to a Buffer and base64 encode it.
+var encoded = new Buffer(imageFile).toString('base64');
+
 // Your Google Cloud Platform project ID
 const projectId = 'translate-0';
 
@@ -983,6 +990,12 @@ function sendVisionMessage(recipientId) {
         var obj = urls[len-1];
         console.log("##### SBPN ##### URL "+obj);
         var result = "Done";
+        
+        // Read the file into memory.
+// Covert the image data to a Buffer and base64 encode it.
+var encoded = new Buffer(obj).toString('base64');
+        console.log("##### SBPN ##### Base64 "+encoded);
+        
         
 visionClient.detectLabels(obj)
   .then((results) => {
