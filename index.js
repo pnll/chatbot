@@ -1015,8 +1015,9 @@ visionClient.detectLabels('temp.jpg')
 
     console.log('Labels:');
     labels.forEach((label) => {
-        result+=" #"+label;
         console.log(label);
+        result+=" #"+label;
+        console.log(result);
     });
   })
   .catch((err) => {
@@ -1032,6 +1033,7 @@ visionClient.detectLabels('temp.jpg')
         setTimeout(
             function(){
                 sendTextMessage(recipientId, result);
+                console.log(result);
             },5000);
     }
     else {
