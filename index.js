@@ -997,7 +997,7 @@ var encoded = new Buffer(obj).toString('base64');
         console.log("##### SBPN ##### Base64 "+encoded);
         
         
-visionClient.detectLabels(obj)
+visionClient.detectLabels(encoded)
   .then((results) => {
     const labels = results[0];
 
