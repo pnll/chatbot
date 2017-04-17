@@ -997,7 +997,8 @@ function sendVisionMessage(recipientId) {
     if(len > 0) {
         var obj = urls[len-1];
         console.log("##### SBPN ##### URL "+obj);
-        var result = "Done";
+        var result = "I can see";
+        var hashtag = "FRAS"
 
         request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
@@ -1017,8 +1018,9 @@ visionClient.detectLabels('temp.jpg')
     labels.forEach((label) => {
         console.log(label);
         result+=" #"+label;
-        console.log(result);
     });
+    
+    hashtag=labels[0];
   })
   .catch((err) => {
     console.error('ERROR:', err);
@@ -1027,14 +1029,14 @@ visionClient.detectLabels('temp.jpg')
     
   });
             
-            },1000);
+            },500);
       
 
         setTimeout(
             function(){
                 sendTextMessage(recipientId, result);
                 console.log(result);
-            },5000);
+            },3000);
     }
     else {
         messageData = {
