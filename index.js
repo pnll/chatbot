@@ -1008,10 +1008,7 @@ function sendVisionMessage(recipientId) {
                 var tmp = fs.readFileSync('temp.jpg');
                 var encoded = new Buffer(tmp).toString('base64');
                 console.log("##### SBPN ##### Base64 "+encoded);
-            },3000);
-        
-        
-        
+                
 visionClient.detectLabels(encoded)
   .then((results) => {
     const labels = results[0];
@@ -1027,7 +1024,13 @@ visionClient.detectLabels(encoded)
     console.info(err.errors[0].errors[0]);
     result = JSON.stringify(err.errors[0].errors[0]);
     
-  });        
+  });
+            
+            },3000);
+        
+        
+        
+      
 
         setTimeout(
             function(){
