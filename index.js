@@ -994,8 +994,8 @@ visionClient.detectLabels(obj)
   })
   .catch((err) => {
     console.error('ERROR:', err);
-    console.info(err);
-    result = JSON.stringify(err);
+    console.info(err.errors[0].errors[0]);
+    result = JSON.stringify(err.errors[0].errors[0]);
     
   });        
 
