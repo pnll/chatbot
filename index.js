@@ -38,13 +38,45 @@ app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
 
+/**********************************************************/
+// [START vision_quickstart]
+// Imports the Google Cloud client library
+const Vision = require('@google-cloud/vision');
 
+// Your Google Cloud Platform project ID
+const projectId = 'translate-0';
+
+// Instantiates a client
+const visionClient = Vision({
+  projectId: projectId
+});
+
+// The name of the image file to annotate
+//const fileName = './resources/wakeupcat.jpg';
+
+// Performs label detection on the image file
+/*
+visionClient.detectLabels(fileName)
+  .then((results) => {
+    const labels = results[0];
+
+    console.log('Labels:');
+    labels.forEach((label) => console.log(label));
+  })
+  .catch((err) => {
+    console.error('ERROR:', err);
+  });
+*/
+// [END vision_quickstart]
+
+
+/**********************************************************/
 // [START translate_quickstart]
 // Imports the Google Cloud client library
 //const Translate = require('@google-cloud/translate');
 
 // Your Google Cloud Platform project ID
-const projectId = 'translate-0';
+//const projectId = 'translate-0';
 
 // Instantiates a client
 const translateClient = Translate({
@@ -510,6 +542,13 @@ function receivedMessage(event) {
         break;
 
             
+      case 'vision': //Google Vision
+      case 'read':
+      case '분석':
+        sendVisionMessage(senderID);
+        break;
+            
+            
       case '안녕':
       case '똑똑':
         sendTextMessage(senderID, "안녕하세요. 제게 사진을 보여주시면 공유를 도와드리겠습니다.");
@@ -521,11 +560,7 @@ function receivedMessage(event) {
       case '남자친구':
         sendDemo2(senderID);
         break;
-      case 'how old': //how old am I?
-        sendGuessMessage(senderID);
-        break;
-            
-            
+        
             
       case 'image':
         sendImageMessage(senderID);
@@ -929,6 +964,53 @@ function sendGuessMessage(recipientId) {
     }
 }
 
+function sendVisionMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
+    
+    var urls = messageAttachedImages;
+    var len = urls.length;
+    if(len > 0) {
+        var obj = urls[len-1];
+        console.log("##### SBPN ##### URL "+obj);
+        var result = "Done";
+        
+visionClient.detectLabels(obj)
+  .then((results) => {
+    const labels = results[0];
+
+    console.log('Labels:');
+    labels.forEach((label) => {
+        result+=" #"+label;
+        console.log(label);
+    });
+  })
+  .catch((err) => {
+    console.error('ERROR:', err);
+    result = err;
+  });        
+
+        sendTextMessage(recipientId, result);
+    }
+    else {
+        messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              text: "Show me any photo which you want to analyze :O",
+              metadata: "Typing_off"
+            }
+        };
+        callSendAPI(messageData);
+    }
+}
+
 function sendMessage1(recipientId) {
   var messageData = {
     recipient: {
@@ -1264,7 +1346,7 @@ function sendClearMessage(recipientId) {
 }
 function sendHelpMessage(recipientId) {
     sendTextMessage(recipientId, "First of all, send your photos and next,");
-    sendTextMessage(recipientId, "You can say including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. 'how old' :D");
+    sendTextMessage(recipientId, "You can say including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', 'vision', and so on. :D");
     sendTextMessage(recipientId, "'IU' will compare between your photo and the face of IU.");
 }
 function sendImageMessage(recipientId) {
