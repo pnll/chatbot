@@ -1002,9 +1002,14 @@ function sendVisionMessage(recipientId) {
         request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
 // Covert the image data to a Buffer and base64 encode it.
-        var tmp = fs.readFileSync('temp.jpg');
-var encoded = new Buffer(tmp).toString('base64');
-        console.log("##### SBPN ##### Base64 "+encoded);
+        
+            setTimeout(
+            function(){
+                var tmp = fs.readFileSync('temp.jpg');
+                var encoded = new Buffer(tmp).toString('base64');
+                console.log("##### SBPN ##### Base64 "+encoded);
+            },3000);
+        
         
         
 visionClient.detectLabels(encoded)
