@@ -48,7 +48,8 @@ const projectId = 'translate-0';
 
 // Instantiates a client
 const visionClient = Vision({
-  projectId: projectId
+  projectId: projectId,
+  keyFilename: './config/translate-676b72bc67ed.json'
 });
 
 // The name of the image file to annotate
