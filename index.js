@@ -41,7 +41,9 @@ app.use(express.static('public'));
 /**********************************************************/
 // [START vision_quickstart]
 // Imports the Google Cloud client library
-const Vision = require('@google-cloud/vision');
+//const Vision = require('@google-cloud/vision');
+var gcloud = require('google-cloud');
+var Vision = gcloud.vision();
 
 // Your Google Cloud Platform project ID
 const projectId = 'translate-0';
