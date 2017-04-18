@@ -661,8 +661,8 @@ function receivedMessage(event) {
     sendTextMessage(senderID, "사진에서 1명의 새로운 얼굴을 인식했습니다.");
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
-      console.log("SBPN3 "+util.inspect(messageAttachments, false, null))
-      
+      console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
+      request(url).pipe(fs.createWriteStream('temp.jpg'));
     callFaceAPI('detect', url);
   }
 }
@@ -1011,7 +1011,7 @@ function sendVisionMessage(recipientId) {
         var result = "I can see";
         var hashtag = "FRAS"
 /***************************************************************/
-        request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        //request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
         
@@ -1041,7 +1041,7 @@ visionClient.detectLabels('temp.jpg')
     
   });
             
-    },2000);
+    },000);
 /***************************************************************/      
         
         setTimeout(
@@ -1077,9 +1077,9 @@ function sendVisionWebMessage(recipientId) {
     var len = urls.length;
     if(len > 0) {
         var obj = urls[len-1];
-        console.log("##### SBPN ##### URL "+obj);
+        console.log("##### SBPN ##### URL for Vision"+obj);
 /***************************************************************/
-        request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        //request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
 
@@ -1141,7 +1141,7 @@ visionClient.detectSimilar('temp.jpg')
     }
     },2000);
   });
-            },2000);
+            },0000);
 /***************************************************************/      
 
     }
