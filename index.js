@@ -151,7 +151,7 @@ function detectLanguage (text, senderID) {
       
       //SBPN
       //var target = "ko";
-      if(constLang && detections[0].language == "ko") {
+      if(constLang==1 && detections[0].language == "ko") {
           target = "en";
       }
       translateText(text, target, senderID);
@@ -437,7 +437,7 @@ function receivedMessage(event) {
           // language
         target = messageText.substring(1, 3);
         constLang = 0; //flag setting
-        sendTextMessage(senderID, target + " will be changed.");
+        sendTextMessage(senderID, messageText + " will be changed.");
       }
       if (messageText.substring(0, 1) == '#') {
           // #[Amy] is [my best friend]
