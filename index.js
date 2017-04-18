@@ -930,7 +930,7 @@ function sendIUMessage(recipientId) {
     var personId = '2c0681cb-5d2c-4d10-b287-ab7910c26eb7';
     var len = facesMS.length;
     var result = "FRAS needs new photo for comparison"
-    if(len > 0 && !(facesMS[len-1].faceId)) {
+    if(len > 0 && !(typeof facesMS[len-1].faceId)) {
         msFace.api('verify', 'POST', {}, {
           faceId: facesMS[len-1].faceId,
           personId: personId,
@@ -1024,7 +1024,7 @@ function sendVisionMessage(recipientId) {
         var result = "I can see";
         var hashtag = "FRAS"
 /***************************************************************/
-        request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        request(obj).pipe(fs.createWriteStream('temp.jpg'));
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
         
@@ -1092,7 +1092,7 @@ function sendVisionWebMessage(recipientId) {
         var obj = urls[len-1];
         console.log("##### SBPN ##### URL for Vision "+obj);
 /***************************************************************/
-        request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        request(obj).pipe(fs.createWriteStream('temp.jpg'));
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
 
