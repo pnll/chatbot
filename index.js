@@ -1131,7 +1131,7 @@ visionClient.detectSimilar('temp.jpg')
     function compare(a, b) {
     return parseInt(a.score) < parseInt(b.score) ? -1 : parseInt(a.score) > parseInt(b.score) ? 1 : 0;
     }
-    webEntity.sort(compare);
+    results.webEntities.sort(compare);
         
       results.webEntities.forEach((webEntity) => {
         console.log(`  Description: ${webEntity.description}`);
