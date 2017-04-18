@@ -565,12 +565,16 @@ function receivedMessage(event) {
       case 'analysis':
       case '#':
       case '분석':
+      case '👓':
         sendVisionMessage(senderID);
         break;
             
-      case 'web': //Google Vision
+      case 'find': //Google Vision
+      case 'web':
       case 'detect':
       case '검색':
+      case '🔍':
+      case '🔎':
         sendVisionWebMessage(senderID);
         break;
             
@@ -1025,10 +1029,10 @@ visionClient.detectLabels('temp.jpg')
     console.log('Labels:');
     labels.forEach((label) => {
         console.log(label);
-        result += " #"+label.replace(/(\s*)/g, "_");
+        result += " #"+label.replace(/(\s)/g, "_");
     });
     
-    hashtag = labels[0].replace(/(\s*)/g, "_");
+    hashtag = labels[0].replace(/(\s)/g, "_");
   })
   .catch((err) => {
     console.error('ERROR:', err);
@@ -1045,7 +1049,7 @@ visionClient.detectLabels('temp.jpg')
                 sendTextMessage(recipientId, result);
                 console.log(result);
                 sendTextMessage(recipientId, "More photos on Insta - http://www.imgrum.org/tag/"+hashtag);
-            },3000);
+            },1000);
     }
     else {
         messageData = {
@@ -1482,7 +1486,7 @@ function sendClearMessage(recipientId) {
 }
 function sendHelpMessage(recipientId) {
     sendTextMessage(recipientId, "First of all, send me your photos and next,");
-    sendTextMessage(recipientId, "you can say command including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', '#/vision/read/analysis/분석', 'web/detect/검색', and so on. :D");
+    sendTextMessage(recipientId, "you can say command including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', '#/vision/read/analysis/분석', 'find/web/detect/검색', and so on. :D");
     sendTextMessage(recipientId, "'IU' will compare between your photo and the face of IU who is famous Korean singer.");
 }
 function sendImageMessage(recipientId) {
