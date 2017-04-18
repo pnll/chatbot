@@ -47,7 +47,6 @@ const Vision = require('@google-cloud/vision');
 
 // Read the file into memory.
 var fs = require('fs');
-var temp = require('temp');
 //var imageFile = fs.readFileSync('https://scontent.xx.fbcdn.net/v/t34.0-12/18009221_1472598482812362_1866440958_n.jpg?_nc_ad=z-m&oh=b60b2345dfb525c57f3f48864458ea77&oe=58F6BDED');
 /*
 const file = fs.createWriteStream("image.jpg");
@@ -396,7 +395,6 @@ function receivedAuthentication(event) {
 
 var messageAttachedImages = new Array();
 var facesMS = new Array();
-var pipeTo = temp.createWriteStream();
 
 function receivedMessage(event) {
   var senderID = event.sender.id;
@@ -667,15 +665,15 @@ function receivedMessage(event) {
       console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
       
-      //request(url).pipe(fs.createWriteStream('temp.jpg'));
-    request(url)
+      request(url).pipe(fs.createWriteStream('temp.jpg'));
+    /*request(url)
       .pipe(pipeTo)
       .on('finish', function() {
         assert.ok(fs.statSync(pipeTo.path), 'Did not create destination path');
         var source = fs.readFileSync(url).toString();
         var destination = fs.readFileSync(pipeTo.path).toString();
         assert.equal(source, destination);
-        console.log("SBPN4 "+pipeTo.path);
+        console.log("SBPN4 "+pipeTo.path);*/
       });
       
     callFaceAPI('detect', url);
@@ -1037,7 +1035,7 @@ function sendVisionMessage(recipientId) {
         //var encoded = new Buffer(tmp).toString('base64');
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
-visionClient.detectLabels(pipeTo.path)
+visionClient.detectLabels('temp.jpg')
   .then((results) => {
     const labels = results[0];
 
@@ -1104,7 +1102,7 @@ function sendVisionWebMessage(recipientId) {
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
 // Detect similar images on the web to a local file
-visionClient.detectSimilar(pipeTo.path)
+visionClient.detectSimilar('temp.jpg')
   .then((data) => {
     const results = data[1].responses[0].webDetection;
 
