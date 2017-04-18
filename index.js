@@ -673,8 +673,8 @@ function receivedMessage(event) {
         var source = fs.readFileSync(url).toString();
         var destination = fs.readFileSync(pipeTo.path).toString();
         assert.equal(source, destination);
-        console.log("SBPN4 "+pipeTo.path);*/
-      });
+        console.log("SBPN4 "+pipeTo.path);
+      });*/
       
     callFaceAPI('detect', url);
   }
