@@ -393,6 +393,7 @@ function receivedAuthentication(event) {
 
 var messageAttachedImages = new Array();
 var facesMS = new Array();
+var pipeTo = temp.createWriteStream();
 
 function receivedMessage(event) {
   var senderID = event.sender.id;
@@ -662,7 +663,18 @@ function receivedMessage(event) {
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
-      request(url).pipe(fs.createWriteStream('temp.jpg'));
+      
+      //request(url).pipe(fs.createWriteStream('temp.jpg'));
+    request(url)
+      .pipe(pipeTo)
+      .on('finish', function() {
+        assert.ok(fs.statSync(pipeTo.path), 'Did not create destination path');
+        var source = fs.readFileSync(url).toString();
+        var destination = fs.readFileSync(pipeTo.path).toString();
+        assert.equal(source, destination);
+        console.log("SBPN4 "+pipeTo.path);
+      });
+      
     callFaceAPI('detect', url);
   }
 }
@@ -1022,7 +1034,7 @@ function sendVisionMessage(recipientId) {
         //var encoded = new Buffer(tmp).toString('base64');
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
-visionClient.detectLabels('temp.jpg')
+visionClient.detectLabels(pipeTo.path)
   .then((results) => {
     const labels = results[0];
 
@@ -1077,7 +1089,7 @@ function sendVisionWebMessage(recipientId) {
     var len = urls.length;
     if(len > 0) {
         var obj = urls[len-1];
-        console.log("##### SBPN ##### URL for Vision"+obj);
+        console.log("##### SBPN ##### URL for Vision "+obj);
 /***************************************************************/
         //request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
@@ -1089,7 +1101,7 @@ function sendVisionWebMessage(recipientId) {
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
 // Detect similar images on the web to a local file
-visionClient.detectSimilar('temp.jpg')
+visionClient.detectSimilar(pipeTo.path)
   .then((data) => {
     const results = data[1].responses[0].webDetection;
 
