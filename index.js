@@ -1024,7 +1024,7 @@ function sendVisionMessage(recipientId) {
         var result = "I can see";
         var hashtag = "FRAS"
 /***************************************************************/
-        //request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
         
@@ -1054,7 +1054,7 @@ visionClient.detectLabels('temp.jpg')
     
   });
             
-    },2000);
+    },1000);
 /***************************************************************/      
         
         setTimeout(
@@ -1092,7 +1092,7 @@ function sendVisionWebMessage(recipientId) {
         var obj = urls[len-1];
         console.log("##### SBPN ##### URL for Vision "+obj);
 /***************************************************************/
-        //request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
 
