@@ -110,6 +110,7 @@ const translateClient = Translate({
 const text = 'Hello, world!';
 // The target language
 var target = 'ko';
+var constLang = 1;
 
 // Translates some text into Russian
 translateClient.translate(text, target)
@@ -150,7 +151,7 @@ function detectLanguage (text, senderID) {
       
       //SBPN
       //var target = "ko";
-      if(detections[0].language == "ko") {
+      if(constLang && detections[0].language == "ko") {
           target = "en";
       }
       translateText(text, target, senderID);
@@ -435,7 +436,8 @@ function receivedMessage(event) {
           // $ko
           // language
         target = messageText.substring(1, 3);
-        sendTextMessage(senderID, target + " will be translated.");
+        constLang = 0; //flag setting
+        sendTextMessage(senderID, target + " will be changed.");
       }
       if (messageText.substring(0, 1) == '#') {
           // #[Amy] is [my best friend]
