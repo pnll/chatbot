@@ -1037,7 +1037,7 @@ function sendVisionMessage(recipientId) {
 //https://vision.googleapis.com/v1/images:annotate?key=            
             
                 
-visionClient.detectLabels({content:encoded})
+visionClient.detectLabels(encoded)
   .then((results) => {
     const labels = results[0];
 
@@ -1055,7 +1055,6 @@ visionClient.detectLabels({content:encoded})
     console.info(err.errors[0].errors[0]);
     //result = JSON.stringify(err.errors[0].errors[0]);
     result = err;
-    
   });
             
     },1000);
