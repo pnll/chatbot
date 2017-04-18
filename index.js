@@ -1000,7 +1000,7 @@ function sendVisionMessage(recipientId) {
         var result = "I can see";
         var hashtag = "FRAS"
 
-        request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        request(obj).pipe(fs.createWriteStream('temp.jpg'));
         // Read the file into memory.
 // Covert the image data to a Buffer and base64 encode it.
         
@@ -1008,7 +1008,7 @@ function sendVisionMessage(recipientId) {
             function(){
                 var tmp = fs.readFileSync('temp.jpg');
                 var encoded = new Buffer(tmp).toString('base64');
-                //console.log("##### SBPN ##### Base64 "+encoded);
+                console.log("##### SBPN ##### Base64 "+encoded);
                 
 visionClient.detectLabels('temp.jpg')
   .then((results) => {
@@ -1017,10 +1017,10 @@ visionClient.detectLabels('temp.jpg')
     console.log('Labels:');
     labels.forEach((label) => {
         console.log(label);
-        result+=" #"+label;
+        result+=" #"+label.replace(/(\s)/g, "_");
     });
     
-    hashtag=labels[0];
+    hashtag=labels[0].replace(/(\s)/g, "_");
   })
   .catch((err) => {
     console.error('ERROR:', err);
