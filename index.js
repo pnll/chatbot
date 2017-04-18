@@ -1020,10 +1020,11 @@ visionClient.detectLabels('temp.jpg')
         result+=" #"+label.replace(/(\s)/g, "_");
     });
     
-    hashtag=labels[0].replace(/(\s)/g, "_");
+    hashtag=labels[0];
+    hashtag=hashtag.replace(/(\s)/g, "_");
   })
   .catch((err) => {
-    console.error('ERROR:', err);
+    console.error('ERROR on Vision :', err);
     //console.info(err.errors[0].errors[0]);
     //result = JSON.stringify(err.errors[0].errors[0]);
     
