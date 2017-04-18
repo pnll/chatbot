@@ -563,19 +563,8 @@ function receivedMessage(event) {
       case 'vision': //Google Vision
       case 'read':
       case 'analysis':
-      case '#':
       case '분석':
-      case '👓':
         sendVisionMessage(senderID);
-        break;
-            
-      case 'find': //Google Vision
-      case 'web':
-      case 'detect':
-      case '검색':
-      case '🔍':
-      case '🔎':
-        sendVisionWebMessage(senderID);
         break;
             
             
@@ -1010,17 +999,16 @@ function sendVisionMessage(recipientId) {
         console.log("##### SBPN ##### URL "+obj);
         var result = "I can see";
         var hashtag = "FRAS"
-/***************************************************************/
+
         request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
-        // Covert the image data to a Buffer and base64 encode it.
+// Covert the image data to a Buffer and base64 encode it.
         
-        setTimeout(
-        function(){
-        
-        //var tmp = fs.readFileSync('temp.jpg');
-        //var encoded = new Buffer(tmp).toString('base64');
-        //console.log("##### SBPN ##### Base64 "+encoded);
+            setTimeout(
+            function(){
+                var tmp = fs.readFileSync('temp.jpg');
+                var encoded = new Buffer(tmp).toString('base64');
+                //console.log("##### SBPN ##### Base64 "+encoded);
                 
 visionClient.detectLabels('temp.jpg')
   .then((results) => {
@@ -1029,10 +1017,10 @@ visionClient.detectLabels('temp.jpg')
     console.log('Labels:');
     labels.forEach((label) => {
         console.log(label);
-        result += " #"+label.replace(/(\s)/g, "_");
+        result+=" #"+label;
     });
     
-    hashtag = labels[0].replace(/(\s)/g, "_");
+    hashtag=labels[0];
   })
   .catch((err) => {
     console.error('ERROR:', err);
@@ -1041,109 +1029,15 @@ visionClient.detectLabels('temp.jpg')
     
   });
             
-    },2000);
-/***************************************************************/      
-        
+            },500);
+      
+
         setTimeout(
             function(){
                 sendTextMessage(recipientId, result);
                 console.log(result);
-                sendTextMessage(recipientId, "More photos on Insta - http://www.imgrum.org/tag/"+hashtag);
-            },1000);
-    }
-    else {
-        messageData = {
-            recipient: {
-              id: recipientId
-            },
-            message: {
-              text: "Show me any photo which you want to analyze :O",
-              metadata: "Typing_off"
-            }
-        };
-        callSendAPI(messageData);
-    }
-}
-function sendVisionWebMessage(recipientId) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    sender_action: "typing_on"
-  };
-  callSendAPI(messageData);
-    
-    var urls = messageAttachedImages;
-    var len = urls.length;
-    if(len > 0) {
-        var obj = urls[len-1];
-        console.log("##### SBPN ##### URL "+obj);
-/***************************************************************/
-        request(obj).pipe(fs.createWriteStream('temp.jpg'))
-        // Read the file into memory.
-        // Covert the image data to a Buffer and base64 encode it.
-
-    setTimeout(function(){
-        //var tmp = fs.readFileSync('temp.jpg');
-        //var encoded = new Buffer(tmp).toString('base64');
-        //console.log("##### SBPN ##### Base64 "+encoded);
-                
-// Detect similar images on the web to a local file
-visionClient.detectSimilar('temp.jpg')
-  .then((data) => {
-    const results = data[1].responses[0].webDetection;
-
-    if (results.fullMatchingImages.length > 0) {
-      console.log(`Full matches found: ${results.fullMatchingImages.length}`);
-      results.fullMatchingImages.forEach((image) => {
-        console.log(`  URL: ${image.url}`);
-        console.log(`  Score: ${image.score}`);
-        //Showing
-        var messageData = {
-            recipient: { id: recipientId },
-            message: {attachment: {type: "image", payload: {
-                  url: image.url }}}};
-        callSendAPI(messageData);
-        sendTextMessage(recipientId, "Full matches "+image.score+"%");
-      });
-    }
-
-    if (results.partialMatchingImages.length > 0) {
-      console.log(`Partial matches found: ${results.partialMatchingImages.length}`);
-      results.partialMatchingImages.forEach((image) => {
-        console.log(`  URL: ${image.url}`);
-        console.log(`  Score: ${image.score}`);
-        //Showing
-        var messageData = {
-            recipient: { id: recipientId },
-            message: {attachment: {type: "image", payload: {
-                  url: image.url }}}};
-        callSendAPI(messageData);
-        sendTextMessage(recipientId, "Partial matches "+image.score+"%");
-      });
-    }
-    
-    
-    setTimeout(function(){
-    if (results.webEntities.length > 0) {
-      console.log(`Web entities found: ${results.webEntities.length}`);
-        
-    function compare(a, b) {
-    return parseInt(a.score) < parseInt(b.score) ? -1 : parseInt(a.score) > parseInt(b.score) ? 1 : 0;
-    }
-    results.webEntities.sort(compare);
-        
-      results.webEntities.forEach((webEntity) => {
-        console.log(`  Description: ${webEntity.description}`);
-        console.log(`  Score: ${webEntity.score}`);
-        sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
-      });
-    }
-    },2000);
-  });
-            },2000);
-/***************************************************************/      
-
+                sendTextMessage(recipientId, "More photo on Insta - http://www.imgrum.org/tag/"+hashtag);
+            },3000);
     }
     else {
         messageData = {
@@ -1493,9 +1387,9 @@ function sendClearMessage(recipientId) {
     sendTextMessage(recipientId, "I have forgotten all my memories. T_T Could you resend your photo? :O");
 }
 function sendHelpMessage(recipientId) {
-    sendTextMessage(recipientId, "First of all, send me your photos and next,");
-    sendTextMessage(recipientId, "you can say command including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', '#/vision/read/analysis/분석', 'find/web/detect/검색', and so on. :D");
-    sendTextMessage(recipientId, "'IU' will compare between your photo and the face of IU who is famous Korean singer.");
+    sendTextMessage(recipientId, "First of all, send your photos and next,");
+    sendTextMessage(recipientId, "You can say including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', 'vision/read/analysis', and so on. :D");
+    sendTextMessage(recipientId, "'IU' will compare between your photo and the face of IU.");
 }
 function sendImageMessage(recipientId) {
   var messageData = {
