@@ -49,6 +49,7 @@ const Vision = require('@google-cloud/vision');
 var fs = require('fs');
 var temp = require('temp');
 //var imageFile = fs.readFileSync('https://scontent.xx.fbcdn.net/v/t34.0-12/18009221_1472598482812362_1866440958_n.jpg?_nc_ad=z-m&oh=b60b2345dfb525c57f3f48864458ea77&oe=58F6BDED');
+/*
 const file = fs.createWriteStream("image.jpg");
 
 https.get("https://scontent.xx.fbcdn.net/v/t34.0-12/18009221_1472598482812362_1866440958_n.jpg", response => {
@@ -60,6 +61,7 @@ var imageFile = fs.readFileSync('image.jpg');
 // Covert the image data to a Buffer and base64 encode it.
 var encoded = new Buffer(imageFile).toString('base64');
 console.log(encoded);
+*/
 
 // Your Google Cloud Platform project ID
 const projectId = 'translate-0';
