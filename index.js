@@ -433,10 +433,13 @@ function receivedMessage(event) {
 
   if (messageText) {
       if (messageText.substring(0, 1) == '$') {
-          // $ko
-          // language
+          // $korea
+          // then 'ko' language
         target = messageText.substring(1, 3);
         constLang = 0; //flag setting
+        if(target=='ko') {
+            constLang = 1; //reset
+        }
         sendTextMessage(senderID, messageText + " will be changed.");
       }
       if (messageText.substring(0, 1) == '#') {
