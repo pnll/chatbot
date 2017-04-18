@@ -1054,7 +1054,7 @@ visionClient.detectLabels('temp.jpg')
     
   });
             
-    },100);
+    },2000);
 /***************************************************************/      
         
         setTimeout(
@@ -1154,7 +1154,101 @@ visionClient.detectSimilar('temp.jpg')
     }
     },2000);
   });
-            },100);
+            },2000);
+/***************************************************************/      
+
+    }
+    else {
+        messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              text: "Show me any photo which you want to analyze :O",
+              metadata: "Typing_off"
+            }
+        };
+        callSendAPI(messageData);
+    }
+}
+function sendVisionColorMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
+    
+    var urls = messageAttachedImages;
+    var len = urls.length;
+    if(len > 0) {
+        var obj = urls[len-1];
+        console.log("##### SBPN ##### URL for Vision "+obj);
+/***************************************************************/
+        //request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        // Read the file into memory.
+        // Covert the image data to a Buffer and base64 encode it.
+
+    setTimeout(function(){
+        //var tmp = fs.readFileSync('temp.jpg');
+        //var encoded = new Buffer(tmp).toString('base64');
+        //console.log("##### SBPN ##### Base64 "+encoded);
+                
+// Detect similar images on the web to a local file
+visionClient.detectSimilar('temp.jpg')
+  .then((data) => {
+    const results = data[1].responses[0].webDetection;
+
+    if (results.fullMatchingImages.length > 0) {
+      console.log(`Full matches found: ${results.fullMatchingImages.length}`);
+      results.fullMatchingImages.forEach((image) => {
+        console.log(`  URL: ${image.url}`);
+        console.log(`  Score: ${image.score}`);
+        //Showing
+        var messageData = {
+            recipient: { id: recipientId },
+            message: {attachment: {type: "image", payload: {
+                  url: image.url }}}};
+        callSendAPI(messageData);
+        sendTextMessage(recipientId, "Full matches "+image.score+"%");
+      });
+    }
+
+    if (results.partialMatchingImages.length > 0) {
+      console.log(`Partial matches found: ${results.partialMatchingImages.length}`);
+      results.partialMatchingImages.forEach((image) => {
+        console.log(`  URL: ${image.url}`);
+        console.log(`  Score: ${image.score}`);
+        //Showing
+        var messageData = {
+            recipient: { id: recipientId },
+            message: {attachment: {type: "image", payload: {
+                  url: image.url }}}};
+        callSendAPI(messageData);
+        sendTextMessage(recipientId, "Partial matches "+image.score+"%");
+      });
+    }
+    
+    
+    setTimeout(function(){
+    if (results.webEntities.length > 0) {
+      console.log(`Web entities found: ${results.webEntities.length}`);
+        
+    function compare(a, b) {
+    return parseInt(a.score) < parseInt(b.score) ? -1 : parseInt(a.score) > parseInt(b.score) ? 1 : 0;
+    }
+    webEntity.sort(compare);
+        
+      results.webEntities.forEach((webEntity) => {
+        console.log(`  Description: ${webEntity.description}`);
+        console.log(`  Score: ${webEntity.score}`);
+        sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
+      });
+    }
+    },2000);
+  });
+            },2000);
 /***************************************************************/      
 
     }
