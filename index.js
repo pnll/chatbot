@@ -1018,7 +1018,7 @@ function sendVisionMessage(recipientId) {
         setTimeout(
         function(){
         
-        var tmp = fs.readFileSync('temp.jpg');
+        //var tmp = fs.readFileSync('temp.jpg');
         //var encoded = new Buffer(tmp).toString('base64');
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
@@ -1041,7 +1041,7 @@ visionClient.detectLabels('temp.jpg')
     
   });
             
-    },1000);
+    },2000);
 /***************************************************************/      
         
         setTimeout(
@@ -1084,7 +1084,7 @@ function sendVisionWebMessage(recipientId) {
         // Covert the image data to a Buffer and base64 encode it.
 
     setTimeout(function(){
-        var tmp = fs.readFileSync('temp.jpg');
+        //var tmp = fs.readFileSync('temp.jpg');
         //var encoded = new Buffer(tmp).toString('base64');
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
@@ -1141,7 +1141,7 @@ visionClient.detectSimilar('temp.jpg')
     }
     },2000);
   });
-            },500);
+            },2000);
 /***************************************************************/      
 
     }
