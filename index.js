@@ -1030,11 +1030,14 @@ function sendVisionMessage(recipientId) {
         setTimeout(
         function(){
         
-        //var tmp = fs.readFileSync('temp.jpg');
-        //var encoded = new Buffer(tmp).toString('base64');
-        //console.log("##### SBPN ##### Base64 "+encoded);
+        var tmp = fs.readFileSync('temp.jpg');
+        var encoded = new Buffer(tmp).toString('base64');
+        console.log("##### SBPN ##### Base64 "+encoded);
+            
+//https://vision.googleapis.com/v1/images:annotate?key=            
+            
                 
-visionClient.detectLabels('temp.jpg')
+visionClient.detectLabels({content:encoded})
   .then((results) => {
     const labels = results[0];
 
