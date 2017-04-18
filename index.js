@@ -1011,6 +1011,9 @@ function sendVisionMessage(recipientId) {
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
         
+        setTimeout(
+        function(){
+        
         var tmp = fs.readFileSync('temp.jpg');
         //var encoded = new Buffer(tmp).toString('base64');
         //console.log("##### SBPN ##### Base64 "+encoded);
@@ -1033,7 +1036,8 @@ visionClient.detectLabels('temp.jpg')
     result = JSON.stringify(err.errors[0].errors[0]);
     
   });
-
+            
+    },500);
 /***************************************************************/      
         
         setTimeout(
@@ -1074,7 +1078,9 @@ function sendVisionWebMessage(recipientId) {
         request(obj).pipe(fs.createWriteStream('temp.jpg'))
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
-        
+
+        setTimeout(
+        function(){        
         var tmp = fs.readFileSync('temp.jpg');
         //var encoded = new Buffer(tmp).toString('base64');
         //console.log("##### SBPN ##### Base64 "+encoded);
@@ -1119,9 +1125,11 @@ visionClient.detectSimilar('temp.jpg')
       results.webEntities.forEach((webEntity) => {
         console.log(`  Description: ${webEntity.description}`);
         console.log(`  Score: ${webEntity.score}`);
+        sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
       });
     }
   });
+            },500);
 /***************************************************************/      
 
     }
