@@ -564,7 +564,7 @@ function receivedMessage(event) {
       case 'vision': //Google Vision
       case 'read':
       case 'analysis':
-      case '#':
+      case 'hashtag':
       case '분석':
       case '👓':
         sendVisionMessage(senderID);
@@ -1506,7 +1506,7 @@ function sendClearMessage(recipientId) {
 }
 function sendHelpMessage(recipientId) {
     sendTextMessage(recipientId, "First of all, send me your photos and next,");
-    sendTextMessage(recipientId, "you can say command including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', '#/vision/read/analysis/분석', 'find/web/detect/검색', and so on. :D");
+    sendTextMessage(recipientId, "you can say command including 'pick', 'clear/reset', 'all/show me', 'clear/reset', 'face/compare' or 'IU'. Plus, 'how old', 'vision/read/hashtag/analysis/분석', 'find/web/detect/검색', and so on. :D");
     sendTextMessage(recipientId, "'IU' will compare between your photo and the face of IU who is famous Korean singer.");
 }
 function sendImageMessage(recipientId) {
