@@ -1138,7 +1138,7 @@ visionClient.detectSimilar('temp.jpg')
     }
     
     
-    setTimeout(function(){
+    //setTimeout(function(){
     if (results.webEntities.length > 0) {
       console.log(`Web entities found: ${results.webEntities.length}`);
         
@@ -1153,7 +1153,7 @@ visionClient.detectSimilar('temp.jpg')
         sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
       });
     }
-    },2000);
+    //},2000);
   });
             },2000);
 /***************************************************************/      
