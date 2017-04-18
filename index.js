@@ -664,7 +664,7 @@ function receivedMessage(event) {
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
-      //request(url).pipe(fs.createWriteStream('temp.jpg'));
+      request(url).pipe(fs.createWriteStream('temp.jpg'));
     /*request(url)
       .pipe(pipeTo)
       .on('finish', function() {
@@ -1023,7 +1023,7 @@ function sendVisionMessage(recipientId) {
         var result = "I can see";
         var hashtag = "FRAS"
 /***************************************************************/
-        request(obj).pipe(fs.createWriteStream('temp.jpg'));
+        //request(obj).pipe(fs.createWriteStream('temp.jpg'));
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
         
@@ -1057,7 +1057,7 @@ visionClient.detectLabels('temp.jpg')
     result = err;
   });
             
-    },1000);
+    },100);
 /***************************************************************/      
         
         setTimeout(
@@ -1065,7 +1065,7 @@ visionClient.detectLabels('temp.jpg')
                 sendTextMessage(recipientId, result);
                 console.log(result);
                 sendTextMessage(recipientId, "More photos on Insta - http://www.imgrum.org/tag/"+hashtag);
-            },1000);
+            },2000);
     }
     else {
         messageData = {
@@ -1095,7 +1095,7 @@ function sendVisionWebMessage(recipientId) {
         var obj = urls[len-1];
         console.log("##### SBPN ##### URL for Vision "+obj);
 /***************************************************************/
-        request(obj).pipe(fs.createWriteStream('temp.jpg'));
+        //request(obj).pipe(fs.createWriteStream('temp.jpg'));
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
 
@@ -1189,7 +1189,7 @@ function sendVisionColorMessage(recipientId) {
         var obj = urls[len-1];
         console.log("##### SBPN ##### URL for Vision "+obj);
 /***************************************************************/
-        request(obj).pipe(fs.createWriteStream('temp.jpg'))
+        //request(obj).pipe(fs.createWriteStream('temp.jpg'));
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
 
