@@ -1037,9 +1037,9 @@ function sendVisionMessage(recipientId) {
 //https://vision.googleapis.com/v1/images:annotate?key=            
             
                 
-visionClient.detectLabels(encoded)
+visionClient.detectLabels('temp.jpg')
   .then((results) => {
-    const labels = results[0];
+    var labels = results[0];
 
     console.log('Labels:');
     labels.forEach((label) => {
@@ -1140,7 +1140,7 @@ visionClient.detectSimilar('temp.jpg')
     }
     
     
-    //setTimeout(function(){
+    setTimeout(function(){
     if (results.webEntities.length > 0) {
       console.log(`Web entities found: ${results.webEntities.length}`);
         
@@ -1155,7 +1155,7 @@ visionClient.detectSimilar('temp.jpg')
         sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
       });
     }
-    //},2000);
+    },2000);
   });
             },2000);
 /***************************************************************/      
