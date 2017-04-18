@@ -664,7 +664,7 @@ function receivedMessage(event) {
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
-      request(url).pipe(fs.createWriteStream('temp.jpg'));
+      request(url).pipe(fs.createWriteStream('temp2.jpg'));
     /*request(url)
       .pipe(pipeTo)
       .on('finish', function() {
@@ -1030,14 +1030,14 @@ function sendVisionMessage(recipientId) {
         setTimeout(
         function(){
         
-        var tmp = fs.readFileSync('temp.jpg');
+        var tmp = fs.readFileSync('temp2.jpg');
         var encoded = new Buffer(tmp).toString('base64');
         console.log("##### SBPN ##### Base64 "+encoded);
             
 //https://vision.googleapis.com/v1/images:annotate?key=            
             
                 
-visionClient.detectLabels('temp.jpg')
+visionClient.detectLabels('temp2.jpg')
   .then((results) => {
     var labels = results[0];
 
@@ -1105,7 +1105,7 @@ function sendVisionWebMessage(recipientId) {
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
 // Detect similar images on the web to a local file
-visionClient.detectSimilar('temp.jpg')
+visionClient.detectSimilar('temp2.jpg')
   .then((data) => {
     var results = data[1].responses[0].webDetection;
 
@@ -1199,7 +1199,7 @@ function sendVisionColorMessage(recipientId) {
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
 // Detect similar images on the web to a local file
-visionClient.detectSimilar('temp.jpg')
+visionClient.detectSimilar('temp2.jpg')
   .then((data) => {
     const results = data[1].responses[0].webDetection;
 
