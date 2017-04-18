@@ -124,6 +124,7 @@ translateClient.translate(text, target)
   });
 // [END translate_quickstart]
 
+var target = "ko";
 
 function detectLanguage (text, senderID) {
   // [START translate_detect_language]
@@ -150,7 +151,6 @@ function detectLanguage (text, senderID) {
       });
       
       //SBPN
-      var target = "ko";
       if(detections[0].language == "ko") {
           target = "en";
       }
@@ -432,6 +432,12 @@ function receivedMessage(event) {
   }
 
   if (messageText) {
+      if (messageText.substring(0, 1) == '$') {
+          // $ko
+          // language
+        target = messageText.substring(1, 3);
+        sendTextMessage(senderID, target + " will be translated.");
+      }
       if (messageText.substring(0, 1) == '#') {
           // #[Amy] is [my best friend]
           // function(url, method, option, data, cb)
