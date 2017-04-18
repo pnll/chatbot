@@ -1041,7 +1041,7 @@ visionClient.detectLabels('temp.jpg')
     
   });
             
-    },500);
+    },1000);
 /***************************************************************/      
         
         setTimeout(
@@ -1083,8 +1083,7 @@ function sendVisionWebMessage(recipientId) {
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
 
-        setTimeout(
-        function(){        
+    setTimeout(function(){
         var tmp = fs.readFileSync('temp.jpg');
         //var encoded = new Buffer(tmp).toString('base64');
         //console.log("##### SBPN ##### Base64 "+encoded);
@@ -1123,15 +1122,24 @@ visionClient.detectSimilar('temp.jpg')
         sendTextMessage(recipientId, "Partial matches "+image.score+"%");
       });
     }
-
+    
+    
+    setTimeout(function(){
     if (results.webEntities.length > 0) {
       console.log(`Web entities found: ${results.webEntities.length}`);
+        
+    function compare(a, b) {
+    return parseInt(a.score) < parseInt(b.score) ? -1 : parseInt(a.score) > parseInt(b.score) ? 1 : 0;
+    })
+    webEntity.sort(compare);
+        
       results.webEntities.forEach((webEntity) => {
         console.log(`  Description: ${webEntity.description}`);
         console.log(`  Score: ${webEntity.score}`);
         sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
       });
     }
+    },2000);
   });
             },500);
 /***************************************************************/      
