@@ -917,7 +917,7 @@ function sendIUMessage(recipientId) {
     var personId = '2c0681cb-5d2c-4d10-b287-ab7910c26eb7';
     var len = facesMS.length;
     var result = "FRAS needs new photo for comparison"
-    if(len > 0) {
+    if(len > 0 && !(facesMS[len-1].faceId)) {
         msFace.api('verify', 'POST', {}, {
           faceId: facesMS[len-1].faceId,
           personId: personId,
