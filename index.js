@@ -1165,7 +1165,7 @@ visionClient.detectSimilar('temp2.jpg')
         sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
       });
     }
-    },2000);
+    },5000);
   });
             },2000);
 /***************************************************************/      
