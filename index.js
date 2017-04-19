@@ -437,6 +437,9 @@ function receivedMessage(event) {
           // language
         target = messageText.substring(1, 3);
         constLang = 0; //flag setting
+        if (target=='ko') {
+          constLang = 1;
+          }
         sendTextMessage(senderID, messageText + " will be changed.");
       }
       if (messageText.substring(0, 1) == '#') {
@@ -1037,9 +1040,9 @@ function sendVisionMessage(recipientId) {
         setTimeout(
         function(){
         
-        var tmp = fs.readFileSync('temp2.jpg');
-        var encoded = new Buffer(tmp).toString('base64');
-        console.log("##### SBPN ##### Base64 "+encoded);
+        //var tmp = fs.readFileSync('temp2.jpg');
+        //var encoded = new Buffer(tmp).toString('base64');
+        //console.log("##### SBPN ##### Base64 "+encoded);
             
 //https://vision.googleapis.com/v1/images:annotate?key=            
             
@@ -1051,7 +1054,7 @@ visionClient.detectLabels('temp2.jpg')
     console.log('Labels:');
     labels.forEach((label) => {
         console.log(label);
-        result += " #"+label.replace(/(\s*)/g, "_");
+        result += " #"+label.replace(/(\s)/g, "_");
     });
     
     hashtag = labels[0];
@@ -1060,8 +1063,8 @@ visionClient.detectLabels('temp2.jpg')
   .catch((err) => {
     console.error('ERROR in Vision :', err);
     console.info(err.errors[0].errors[0]);
-    //result = JSON.stringify(err.errors[0].errors[0]);
-    result = err;
+    result = JSON.stringify(err.errors[0].errors[0]);
+    //result = err;
   });
             
     },100);
@@ -1072,7 +1075,7 @@ visionClient.detectLabels('temp2.jpg')
                 sendTextMessage(recipientId, result);
                 console.log(result);
                 sendTextMessage(recipientId, "More photos on Insta - http://www.imgrum.org/tag/"+hashtag);
-            },2000);
+            },1000);
     }
     else {
         messageData = {
