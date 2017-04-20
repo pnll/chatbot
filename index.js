@@ -665,7 +665,7 @@ function receivedMessage(event) {
       
       var url = "";
       console.log(JSON.stringify(messageAttachments[0]));
-      if (!messageAttachments[0].payload) {
+      if (messageAttachments[0].payload != null) {
         url = messageAttachments[0].payload.url;
         messageAttachedImages.push(url);
       }
