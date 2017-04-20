@@ -1835,6 +1835,22 @@ function sendButtonMessage2(recipientId, argText, labels) {
     });
     console.log("All done Tag " + JSON.stringify(hashtags));
     
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          attachment: {
+            type: "template",
+            payload: {
+              template_type: "button",
+              text: argText,
+              buttons: hashtags
+            }
+          }
+        }
+      };
+      callSendAPI(messageData);    
 
 }
 
