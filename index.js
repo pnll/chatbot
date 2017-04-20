@@ -1808,8 +1808,9 @@ function sendButtonMessage2(recipientId, argText, labels) {
         hashtag.webview_height_ratio = "tall";
         hashtags.push(hashtag);
         console.log("hashTag " + hashtags);
+        i++;
 
-        if(i!=0 && i%3==0) {
+        if(i%3==0) {
             console.log(i);
           var messageData = {
             recipient: {
@@ -1831,7 +1832,6 @@ function sendButtonMessage2(recipientId, argText, labels) {
           //reset
           hashtags = new Array();
         }
-        i++;
     });
     console.log("All done Tag " + JSON.stringify(hashtags));
     
