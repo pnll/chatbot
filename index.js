@@ -1074,7 +1074,7 @@ visionClient.detectLabels('temp2.jpg')
             function(){
                 sendTextMessage(recipientId, result);
                 console.log(result);
-                sendTextMessage(recipientId, "More photos on Insta - http://www.imgrum.org/tag/"+hashtag);
+                sendTextMessage(recipientId, "More photos on Insta - https://www.instagram.com/explore/tags/"+hashtag);
             },3000);
     }
     else {
