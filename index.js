@@ -1075,7 +1075,7 @@ function sendVisionMessage(recipientId) {
     if(len > 0) {
         var obj = urls[len-1];
         console.log("##### SBPN ##### URL "+obj);
-        var result = "I can see";
+        var result = "I can be seeing";
         var hashtag = "FRAS"
         var labels = new Array();
 /***************************************************************/
@@ -1119,6 +1119,7 @@ visionClient.detectLabels('temp.jpg')
         setTimeout(
             function(){
                 sendTextMessage(recipientId, result);
+                sendTextMessage(recipientId, "http://picbear.com/tag/"+hashtag);
                 console.log(result);
                 //sendTextMessage(recipientId, "More photos on Insta - https://www.instagram.com/explore/tags/"+hashtag);
                 sendButtonMessage2(recipientId, "More photos on Instagram*", labels)
@@ -1838,12 +1839,13 @@ function sendButtonMessage2(recipientId, argText, labels) {
         argUrl[i] = label.replace(/(\s)/g, "_");
         //result += " #"+argUrl[i++];
         
-        hashtags.push({
-            type: "web_url",
-            url: url + argUrl[i],
-            title: "#"+argUrl[i],
-            "webview_height_ratio": "tall"
-          })
+        hashtag = new Object();
+        hashtag.type = "web_url";
+        hashtag.url = url + argUrl[i];
+        hashtag.title = "#"+argUrl[i];
+        hashtag.webview_height_ratio = "tall";
+        hashtags.push(hashtag);
+        i++;
     });
     
   var messageData = {
