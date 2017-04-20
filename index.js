@@ -22,7 +22,7 @@ const faceAPI = require('mt-face-api');
 const Translate = require('@google-cloud/translate');
  
 var msFace = new faceAPI("a709bb7843e344c49fee014ffa178ea7");
- 
+
 var FacePP = require('./lib/facepp-sdk.js');
 
 var fpp = require('face-plus-plus');
@@ -30,6 +30,8 @@ fpp.setApiKey('23f2e82cffb05a397b7ef5f5aa5920e8');
 fpp.setApiSecret('sRcfHQAP-ijE4aFR71Tc64hl4ZH89MSP');
 
 var Promise = require('promise');
+
+var colorJS = require('./lib/color-thief.js');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -595,6 +597,10 @@ function receivedMessage(event) {
       case '🔍':
       case '🔎':
         sendVisionWebMessage(senderID);
+        break;
+
+      case 'color':
+        sendVisionColorMessage(senderID);
         break;
             
             
@@ -1252,63 +1258,10 @@ function sendVisionColorMessage(recipientId) {
         // Covert the image data to a Buffer and base64 encode it.
 
     setTimeout(function(){
-        //var tmp = fs.readFileSync('temp.jpg');
-        //var encoded = new Buffer(tmp).toString('base64');
-        //console.log("##### SBPN ##### Base64 "+encoded);
-                
-// Detect similar images on the web to a local file
-visionClient.detectSimilar('temp.jpg')
-  .then((data) => {
-    const results = data[1].responses[0].webDetection;
-
-    if (results.fullMatchingImages.length > 0) {
-      console.log(`Full matches found: ${results.fullMatchingImages.length}`);
-      results.fullMatchingImages.forEach((image) => {
-        console.log(`  URL: ${image.url}`);
-        console.log(`  Score: ${image.score}`);
-        //Showing
-        var messageData = {
-            recipient: { id: recipientId },
-            message: {attachment: {type: "image", payload: {
-                  url: image.url }}}};
-        callSendAPI(messageData);
-        sendTextMessage(recipientId, "Full matches "+image.score+"%");
-      });
-    }
-
-    if (results.partialMatchingImages.length > 0) {
-      console.log(`Partial matches found: ${results.partialMatchingImages.length}`);
-      results.partialMatchingImages.forEach((image) => {
-        console.log(`  URL: ${image.url}`);
-        console.log(`  Score: ${image.score}`);
-        //Showing
-        var messageData = {
-            recipient: { id: recipientId },
-            message: {attachment: {type: "image", payload: {
-                  url: image.url }}}};
-        callSendAPI(messageData);
-        sendTextMessage(recipientId, "Partial matches "+image.score+"%");
-      });
-    }
-    
-    
-    setTimeout(function(){
-    if (results.webEntities.length > 0) {
-      console.log(`Web entities found: ${results.webEntities.length}`);
-        
-    function compare(a, b) {
-    return parseInt(a.score) < parseInt(b.score) ? -1 : parseInt(a.score) > parseInt(b.score) ? 1 : 0;
-    }
-    webEntity.sort(compare);
-        
-      results.webEntities.forEach((webEntity) => {
-        console.log(`  Description: ${webEntity.description}`);
-        console.log(`  Score: ${webEntity.score}`);
-        sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
-      });
-    }
-    },2000);
-  });
+        colorJS.colorThief.getColorAsync(obj,function(color, element){
+          console.log('async', color, element.src);
+          sendTextMessage(recipientId, "["+color+"] "+'rgb('+color[0]+','+color[1]+','+color[2]+')');
+        });
             },2000);
 /***************************************************************/      
 
