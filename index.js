@@ -1829,12 +1829,21 @@ function sendButtonMessage(recipientId) {
 function sendButtonMessage2(recipientId, argText, labels) {
     var result = "";
     var argUrl = new Array();
+    var hashtags = new Array();
+    
     var url = "https://www.instagram.com/explore/tags/";
     var i=0;
     labels.forEach((label) => {
         console.log(label);
         argUrl[i] = label.replace(/(\s)/g, "_");
-        result += " #"+argUrl[i++];
+        //result += " #"+argUrl[i++];
+        
+        hashtags.push({
+            type: "web_url",
+            url: url + argUrl[i],
+            title: "#"+argUrl[i],
+            "webview_height_ratio": "tall"
+          })
     });
     
   var messageData = {
@@ -1847,22 +1856,7 @@ function sendButtonMessage2(recipientId, argText, labels) {
         payload: {
           template_type: "button",
           text: argText,
-          buttons:[{
-            type: "web_url",
-            url: url + argUrl[0],
-            title: "#"+argUrl[0],
-            "webview_height_ratio": "tall"
-          }, {
-            type: "web_url",
-            url: url + argUrl[1],
-            title: "#"+argUrl[1],
-            "webview_height_ratio": "tall"
-          }, {
-            type: "web_url",
-            url: url + argUrl[2],
-            title: "#"+argUrl[2],
-            "webview_height_ratio": "tall"
-          }]
+          buttons: hashtags
         }
       }
     }
