@@ -1810,6 +1810,7 @@ function sendButtonMessage2(recipientId, argText, labels) {
         console.log("hashTag " + hashtags);
         i++;
     });
+    console.log("All done Tag " + hashtags);
     
   var messageData = {
     recipient: {
