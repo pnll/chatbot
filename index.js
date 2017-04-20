@@ -1801,7 +1801,7 @@ function sendButtonMessage2(recipientId, argText, labels) {
         argUrl[i] = label.replace(/(\s)/g, "_");
         //result += " #"+argUrl[i++];
         
-        if(i<3) {
+        if(i<=3) {
         var hashtag = new Object();
         hashtag.type = "web_url";
         hashtag.url = url + argUrl[i];
