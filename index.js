@@ -695,11 +695,10 @@ function receivedMessage(event) {
       
       var url = "";
       console.log(JSON.stringify(messageAttachments[0]));
-      if (hasOwnProperty.call(messageAttachments[0], 'url')) {
+      if (hasOwnProperty.call(messageAttachments[0], 'payload')) {
         url = messageAttachments[0].payload.url;
         messageAttachedImages.push(url);
       }
-      console.log(JSON.stringify(messageAttachments[0].payload));
     //sendTextMessage(senderID, "Message with attachment received");
     //sendTextMessage(senderID, url);
     
