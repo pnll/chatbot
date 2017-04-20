@@ -31,7 +31,7 @@ fpp.setApiSecret('sRcfHQAP-ijE4aFR71Tc64hl4ZH89MSP');
 
 var Promise = require('promise');
 
-var colorJS = require('./lib/color-thief.js');
+var colorJS = require('./lib/color-thief-node.js');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
