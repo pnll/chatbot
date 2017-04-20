@@ -151,7 +151,7 @@ function detectLanguage (text, senderID) {
       
       //SBPN
       //var target = "ko";
-      if(constLang==1 && detections[0].language == "ko") {
+      if(constLang == 1 && detections[0].language == "ko") {
           target = "en";
       }
       translateText(text, target, senderID);
@@ -433,12 +433,12 @@ function receivedMessage(event) {
 
   if (messageText) {
       if (messageText.substring(0, 1) == '$') {
-          // $korea
-          // then 'ko' language
+          // $ko
+          // language
         target = messageText.substring(1, 3);
         constLang = 0; //flag setting
-        if(target=='ko') {
-            constLang = 1; //reset
+        if (target=='ko') {
+          constLang = 1;
         }
         sendTextMessage(senderID, messageText + " will be changed.");
       }
@@ -663,18 +663,20 @@ function receivedMessage(event) {
     }
   } else if (messageAttachments) {
       var url = messageAttachments[0].payload.url;
-      messageAttachedImages.push(url);
+      if (!url) {
+        messageAttachedImages.push(url);
+      }
     //sendTextMessage(senderID, "Message with attachment received");
     //sendTextMessage(senderID, url);
     
     //ori
     sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
-    sendTextMessage(senderID, "이 사람은 누구인가요?");
-    sendTextMessage(senderID, "사진에서 1명의 새로운 얼굴을 인식했습니다.");
+    //sendTextMessage(senderID, "이 사람은 누구인가요?");
+    //sendTextMessage(senderID, "사진에서 1명의 새로운 얼굴을 인식했습니다.");
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
-      request(url).pipe(fs.createWriteStream('temp2.jpg'));
+      request(url).pipe(fs.createWriteStream('temp.jpg'));
     /*request(url)
       .pipe(pipeTo)
       .on('finish', function() {
@@ -1040,21 +1042,21 @@ function sendVisionMessage(recipientId) {
         setTimeout(
         function(){
         
-        var tmp = fs.readFileSync('temp2.jpg');
-        var encoded = new Buffer(tmp).toString('base64');
-        console.log("##### SBPN ##### Base64 "+encoded);
+        //var tmp = fs.readFileSync('temp.jpg');
+        //var encoded = new Buffer(tmp).toString('base64');
+        //console.log("##### SBPN ##### Base64 "+encoded);
             
 //https://vision.googleapis.com/v1/images:annotate?key=            
             
                 
-visionClient.detectLabels('temp2.jpg')
+visionClient.detectLabels('temp.jpg')
   .then((results) => {
     var labels = results[0];
 
     console.log('Labels:');
     labels.forEach((label) => {
         console.log(label);
-        result += " #"+label.replace(/(\s*)/g, "_");
+        result += " #"+label.replace(/(\s)/g, "_");
     });
     
     hashtag = labels[0];
@@ -1063,8 +1065,8 @@ visionClient.detectLabels('temp2.jpg')
   .catch((err) => {
     console.error('ERROR in Vision :', err);
     console.info(err.errors[0].errors[0]);
-    //result = JSON.stringify(err.errors[0].errors[0]);
-    result = err;
+    result = JSON.stringify(err.errors[0].errors[0]);
+    //result = err;
   });
             
     },100);
@@ -1074,8 +1076,8 @@ visionClient.detectLabels('temp2.jpg')
             function(){
                 sendTextMessage(recipientId, result);
                 console.log(result);
-                sendTextMessage(recipientId, "More photos on Insta - http://www.imgrum.org/tag/"+hashtag);
-            },2000);
+                sendTextMessage(recipientId, "More photos on Insta - https://www.instagram.com/explore/tags/"+hashtag);
+            },3000);
     }
     else {
         messageData = {
@@ -1115,7 +1117,7 @@ function sendVisionWebMessage(recipientId) {
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
 // Detect similar images on the web to a local file
-visionClient.detectSimilar('temp2.jpg')
+visionClient.detectSimilar('temp.jpg')
   .then((data) => {
     var results = data[1].responses[0].webDetection;
 
@@ -1165,7 +1167,7 @@ visionClient.detectSimilar('temp2.jpg')
         sendTextMessage(recipientId, "["+webEntity.score+"] "+webEntity.description);
       });
     }
-    },2000);
+    },4000);
   });
             },2000);
 /***************************************************************/      
@@ -1209,7 +1211,7 @@ function sendVisionColorMessage(recipientId) {
         //console.log("##### SBPN ##### Base64 "+encoded);
                 
 // Detect similar images on the web to a local file
-visionClient.detectSimilar('temp2.jpg')
+visionClient.detectSimilar('temp.jpg')
   .then((data) => {
     const results = data[1].responses[0].webDetection;
 
