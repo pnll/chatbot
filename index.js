@@ -1828,17 +1828,14 @@ function sendButtonMessage(recipientId) {
 
 function sendButtonMessage2(recipientId, argText, labels) {
     var result = "";
-    var argUrl = new Array(3);
+    var argUrl = new Array();
     var url = "https://www.instagram.com/explore/tags/";
-        labels.forEach((label) => {
+    var i=0;
+    labels.forEach((label) => {
         console.log(label);
-        result += " #"+label.replace(/(\s)/g, "_");
-            
+        argUrl[i] = label.replace(/(\s)/g, "_");
+        result += " #"+argUrl[i++];
     });
-    argUrl[0] = labels[0].replace(/(\s)/g, "_");
-    argUrl[1] = labels[1].replace(/(\s)/g, "_");
-    argUrl[2] = labels[2].replace(/(\s)/g, "_");
-    
     
   var messageData = {
     recipient: {
