@@ -685,6 +685,35 @@ function receivedMessage(event) {
       if (url.length > 3) {
         if (url.indexOf('.jpg') || url.indexOf('.jpeg') || url.indexOf('.png') || url.indexOf('.gif')) {
             request(url).pipe(fs.createWriteStream('temp.jpg'));
+            
+    setTimeout(
+     function(){
+         var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "선택해주세요.",
+      metadata: "DEVELOPER_DEFINED_METADATA",
+      quick_replies: [
+        {
+          "content_type":"text",
+          "title":"해시태그",
+          "payload":"vision"
+        },
+        {
+          "content_type":"text",
+          "title":"웹검색",
+          "payload":"web"
+        }
+      ]
+    }
+  };
+    
+  callSendAPI(messageData);
+    },3000);
+            
+            
         }
       }
     /*request(url)
@@ -1086,7 +1115,8 @@ visionClient.detectLabels('temp.jpg')
             function(){
                 sendTextMessage(recipientId, result);
                 console.log(result);
-                sendTextMessage(recipientId, "More photos on Insta - https://www.instagram.com/explore/tags/"+hashtag);
+                //sendTextMessage(recipientId, "More photos on Insta - https://www.instagram.com/explore/tags/"+hashtag);
+                sendButtonMessage2(recipientId, "More photos on Instagram", "https://www.instagram.com/explore/tags/"+hashtag)
             },3000);
     }
     else {
@@ -1788,6 +1818,37 @@ function sendButtonMessage(recipientId) {
 
   callSendAPI(messageData);
 }
+
+
+
+function sendButtonMessage2(recipientId, argText, argUrl) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: argText,
+          buttons:[{
+            type: "web_url",
+            url: argUrl,
+            title: "Open Web URL"
+          }, {
+            type: "postback",
+            title: "Trigger Postback",
+            payload: "DEVELOPED_DEFINED_PAYLOAD"
+          }]
+        }
+      }
+    }
+  };  
+
+  callSendAPI(messageData);
+}
+
 
 /*
  * Send a Structured Message (Generic Message type) using the Send API.
