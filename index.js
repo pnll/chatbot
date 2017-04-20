@@ -112,7 +112,9 @@ const text = 'Hello, world!';
 var target = 'ko';
 var constLang = 1;
 
-// Translates some text into Russian
+console.log(`Welcome back!`);
+
+/* Translates some text into Russian
 translateClient.translate(text, target)
   .then((results) => {
     const translation = results[0];
@@ -123,7 +125,7 @@ translateClient.translate(text, target)
   .catch((err) => {
     console.error('ERROR:', err);
   });
-// [END translate_quickstart]
+*/ [END translate_quickstart]
 
 function detectLanguage (text, senderID) {
   // [START translate_detect_language]
@@ -432,17 +434,17 @@ function receivedMessage(event) {
   }
 
   if (messageText) {
-      if (messageText.substring(0, 1) == '$') {
+      if (messageText.substr(0, 1) == '$') {
           // $ko
           // language
-        target = messageText.substring(1, 3);
+        target = messageText.substr(1, 2);
         constLang = 0; //flag setting
-        if (target=='ko') {
+        if (target=="ko") {
           constLang = 1;
         }
         sendTextMessage(senderID, messageText + " will be changed.");
       }
-      if (messageText.substring(0, 1) == '#') {
+      if (messageText.substr(0, 1) == '#') {
           // #[Amy] is [my best friend]
           // function(url, method, option, data, cb)
         var faceListId = 'facelist_id1';
@@ -462,7 +464,7 @@ function receivedMessage(event) {
         });          
         //sendTextMessage(senderID, messageText + " is created.");
       }
-      if (messageText.substring(0, 1) == '@') {
+      if (messageText.substr(0, 1) == '@') {
           var len = messageAttachedImages.length;
           if(len > 0) {
             //face persisted
@@ -681,9 +683,7 @@ function receivedMessage(event) {
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
       
       if (url.length > 3) {
-        var ext = url.substr(url.length-3);
-        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "peg")
-        {
+        if (url.indexOf('.jpg') || url.indexOf('.jpeg') || url.indexOf('.png') || url.indexOf('.gif')) {
             request(url).pipe(fs.createWriteStream('temp.jpg'));
         }
       }
