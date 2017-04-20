@@ -689,9 +689,7 @@ function receivedMessage(event) {
     setTimeout(
      function(){
          var messageData = {
-    recipient: {
-      id: recipientId
-    },
+    recipient: { id: senderID },
     message: {
       text: "선택해주세요.",
       metadata: "DEVELOPER_DEFINED_METADATA",
@@ -711,7 +709,7 @@ function receivedMessage(event) {
   };
     
   callSendAPI(messageData);
-    },3000);
+    },2000);
             
             
         }
