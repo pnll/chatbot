@@ -112,7 +112,7 @@ const text = 'Hello, world!';
 var target = 'ko';
 var constLang = 1;
 
-console.log(`Welcome back!`);
+console.log(`Welcome, back! 서버가 재시작됐습니다.`);
 
 /* Translates some text into Russian
 translateClient.translate(text, target)
@@ -696,12 +696,12 @@ function receivedMessage(event) {
       quick_replies: [
         {
           "content_type":"text",
-          "title":"해시태그",
+          "title":"vision",
           "payload":"vision"
         },
         {
           "content_type":"text",
-          "title":"웹검색",
+          "title":"web",
           "payload":"web"
         }
       ]
@@ -1085,10 +1085,10 @@ function sendVisionMessage(recipientId) {
             
 //https://vision.googleapis.com/v1/images:annotate?key=            
             
-                
+var labels = "";
 visionClient.detectLabels('temp.jpg')
   .then((results) => {
-    var labels = results[0];
+    labels = results[0];
 
     console.log('Labels:');
     labels.forEach((label) => {
@@ -1114,7 +1114,7 @@ visionClient.detectLabels('temp.jpg')
                 sendTextMessage(recipientId, result);
                 console.log(result);
                 //sendTextMessage(recipientId, "More photos on Insta - https://www.instagram.com/explore/tags/"+hashtag);
-                sendButtonMessage2(recipientId, "More photos on Instagram", "https://www.instagram.com/explore/tags/"+hashtag)
+                sendButtonMessage2(recipientId, "More photos on Instagram*", labels)
             },3000);
     }
     else {
@@ -1819,7 +1819,19 @@ function sendButtonMessage(recipientId) {
 
 
 
-function sendButtonMessage2(recipientId, argText, argUrl) {
+function sendButtonMessage2(recipientId, argText, labels) {
+    var result = "";
+    var argUrl = new Array(2);
+    var url = "https://www.instagram.com/explore/tags/";
+        labels.forEach((label) => {
+        console.log(label);
+        result += " #"+label.replace(/(\s)/g, "_");
+            
+    });
+    argUrl[0] = labels[0].replace(/(\s)/g, "_");
+    argUrl[1] = labels[1].replace(/(\s)/g, "_");
+    
+    
   var messageData = {
     recipient: {
       id: recipientId
@@ -1832,12 +1844,14 @@ function sendButtonMessage2(recipientId, argText, argUrl) {
           text: argText,
           buttons:[{
             type: "web_url",
-            url: argUrl,
-            title: "Open Web URL"
+            url: url + argUrl[0],
+            title: "#"+argUrl[0],
+            "webview_height_ratio": "compact"
           }, {
-            type: "postback",
-            title: "Trigger Postback",
-            payload: "DEVELOPED_DEFINED_PAYLOAD"
+            type: "web_url",
+            url: url + argUrl[1],
+            title: "#"+argUrl[1],
+            "webview_height_ratio": "compact"
           }]
         }
       }
