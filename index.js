@@ -679,7 +679,14 @@ function receivedMessage(event) {
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
-      request(url).pipe(fs.createWriteStream('temp.jpg'));
+      
+      if (url.length > 3) {
+        var ext = url.substr(url.length-3);
+        if (ext == "jpg" || ext == "png" || ext == "gif" || ext == "peg")
+        {
+            request(url).pipe(fs.createWriteStream('temp.jpg'));
+        }
+      }
     /*request(url)
       .pipe(pipeTo)
       .on('finish', function() {
