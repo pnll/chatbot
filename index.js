@@ -662,15 +662,17 @@ function receivedMessage(event) {
         //sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-      var url = messageAttachments[0].payload.url;
-      messageAttachedImages.push(url);
+      if(messageAttachments[0].payload.url != null) {
+        var url = messageAttachments[0].payload.url;
+        messageAttachedImages.push(url);
+      }
     //sendTextMessage(senderID, "Message with attachment received");
     //sendTextMessage(senderID, url);
     
     //ori
     sendTextMessage(senderID, "I have seen nice picture :D (Queue:"+ messageAttachedImages.length+")");
-    sendTextMessage(senderID, "이 사람은 누구인가요?");
-    sendTextMessage(senderID, "사진에서 1명의 새로운 얼굴을 인식했습니다.");
+    //sendTextMessage(senderID, "이 사람은 누구인가요?");
+    //sendTextMessage(senderID, "사진에서 1명의 새로운 얼굴을 인식했습니다.");
       console.log("SBPN1 "+messageAttachments);
       console.log("SBPN2 "+url);
       console.log("SBPN3 "+util.inspect(messageAttachments, false, null));
