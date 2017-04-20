@@ -1071,6 +1071,7 @@ function sendVisionMessage(recipientId) {
         console.log("##### SBPN ##### URL "+obj);
         var result = "I can see";
         var hashtag = "FRAS"
+        var labels = new Array();
 /***************************************************************/
         //request(obj).pipe(fs.createWriteStream('temp.jpg'));
         // Read the file into memory.
@@ -1085,7 +1086,6 @@ function sendVisionMessage(recipientId) {
             
 //https://vision.googleapis.com/v1/images:annotate?key=            
             
-var labels = "";
 visionClient.detectLabels('temp.jpg')
   .then((results) => {
     labels = results[0];
@@ -1100,6 +1100,7 @@ visionClient.detectLabels('temp.jpg')
     hashtag = hashtag.replace(/(\s*)/g, "");
   })
   .catch((err) => {
+    labels[0] = "error";
     console.error('ERROR in Vision :', err);
     console.info(err.errors[0].errors[0]);
     result = JSON.stringify(err.errors[0].errors[0]);
