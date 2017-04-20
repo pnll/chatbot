@@ -1828,7 +1828,7 @@ function sendButtonMessage(recipientId) {
 
 function sendButtonMessage2(recipientId, argText, labels) {
     var result = "";
-    var argUrl = new Array(2);
+    var argUrl = new Array(3);
     var url = "https://www.instagram.com/explore/tags/";
         labels.forEach((label) => {
         console.log(label);
@@ -1837,6 +1837,7 @@ function sendButtonMessage2(recipientId, argText, labels) {
     });
     argUrl[0] = labels[0].replace(/(\s)/g, "_");
     argUrl[1] = labels[1].replace(/(\s)/g, "_");
+    argUrl[2] = labels[2].replace(/(\s)/g, "_");
     
     
   var messageData = {
@@ -1853,12 +1854,17 @@ function sendButtonMessage2(recipientId, argText, labels) {
             type: "web_url",
             url: url + argUrl[0],
             title: "#"+argUrl[0],
-            "webview_height_ratio": "compact"
+            "webview_height_ratio": "tall"
           }, {
             type: "web_url",
             url: url + argUrl[1],
             title: "#"+argUrl[1],
-            "webview_height_ratio": "compact"
+            "webview_height_ratio": "tall"
+          }, {
+            type: "web_url",
+            url: url + argUrl[2],
+            title: "#"+argUrl[2],
+            "webview_height_ratio": "tall"
           }]
         }
       }
@@ -2263,7 +2269,7 @@ function callFaceAPI(type, faceData) {
     msFace.api(type, 'POST', {}, {
       url: faceData
     }, function(error, res, body) {
-        console.log(body)
+        console.log("BODY" + body)
         
         //body.length?
         facesMS.push(body[0]);
