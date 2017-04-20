@@ -1801,7 +1801,6 @@ function sendButtonMessage2(recipientId, argText, labels) {
         argUrl[i] = label.replace(/(\s)/g, "_");
         //result += " #"+argUrl[i++];
         
-        if(i<=3) {
         var hashtag = new Object();
         hashtag.type = "web_url";
         hashtag.url = url + argUrl[i];
@@ -1809,28 +1808,33 @@ function sendButtonMessage2(recipientId, argText, labels) {
         hashtag.webview_height_ratio = "tall";
         hashtags.push(hashtag);
         console.log("hashTag " + hashtags);
-        i++;
+
+        if(i%3==0) {
+          var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: argText,
+                  buttons: hashtags
+                }
+              }
+            }
+          };
+          callSendAPI(messageData);
+            
+          //reset
+          hashtags = new Array();
         }
+        i++;
     });
     console.log("All done Tag " + JSON.stringify(hashtags));
     
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: argText,
-          buttons: hashtags
-        }
-      }
-    }
-  };  
 
-  callSendAPI(messageData);
 }
 
 
