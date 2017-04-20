@@ -694,7 +694,7 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
       
       var url = "";
-      if (hasOwnProperty.call(obj, 'url')) {
+      if (hasOwnProperty.call(messageAttachments[0].payload, 'url')) {
         url = messageAttachments[0].payload.url;
         messageAttachedImages.push(url);
       }
