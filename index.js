@@ -707,7 +707,7 @@ function receivedMessage(event) {
          var messageData = {
     recipient: { id: senderID },
     message: {
-      text: "선택해주세요.",
+      text: "원하시는 정보를 선택해주세요.",
       metadata: "DEVELOPER_DEFINED_METADATA",
       quick_replies: [
         {
@@ -1801,6 +1801,7 @@ function sendButtonMessage2(recipientId, argText, labels) {
         argUrl[i] = label.replace(/(\s)/g, "_");
         //result += " #"+argUrl[i++];
         
+        if(i<3) {
         var hashtag = new Object();
         hashtag.type = "web_url";
         hashtag.url = url + argUrl[i];
@@ -1809,6 +1810,7 @@ function sendButtonMessage2(recipientId, argText, labels) {
         hashtags.push(hashtag);
         console.log("hashTag " + hashtags);
         i++;
+        }
     });
     console.log("All done Tag " + JSON.stringify(hashtags));
     
@@ -2226,7 +2228,7 @@ function callFaceAPI(type, faceData) {
     msFace.api(type, 'POST', {}, {
       url: faceData
     }, function(error, res, body) {
-        console.log("BODY" + body)
+        console.log("MS Face - BODY " + body)
         
         //body.length?
         facesMS.push(body[0]);
