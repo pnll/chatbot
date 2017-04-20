@@ -1259,14 +1259,14 @@ function sendVisionColorMessage(recipientId) {
     var len = urls.length;
     if(len > 0) {
         var obj = urls[len-1];
-        console.log("##### SBPN ##### URL for Vision "+obj);
+        console.log("##### SBPN ##### URL for color "+obj);
 /***************************************************************/
         //request(obj).pipe(fs.createWriteStream('temp.jpg'));
         // Read the file into memory.
         // Covert the image data to a Buffer and base64 encode it.
 
     setTimeout(function(){
-        colorJS.colorThief.getColorAsync(obj,function(color, element){
+        colorJS.ColorThief.getColorAsync(obj,function(color, element){
           console.log('async', color, element.src);
           sendTextMessage(recipientId, "["+color+"] "+'rgb('+color[0]+','+color[1]+','+color[2]+')');
         });
