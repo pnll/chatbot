@@ -437,6 +437,9 @@ function receivedMessage(event) {
     else if (quickReplyPayload == 'web') {
       sendVisionWebMessage(senderID);
     }
+    else if (quickReplyPayload == 'color') {
+      sendVisionColorMessage(senderID);
+    }
     return;
   }
 
@@ -715,6 +718,11 @@ function receivedMessage(event) {
           "content_type":"text",
           "title":"Web",
           "payload":"web"
+        },
+        {
+          "content_type":"text",
+          "title":"Color",
+          "payload":"color"
         }
       ]
     }
@@ -1792,12 +1800,13 @@ function sendButtonMessage2(recipientId, argText, labels) {
         argUrl[i] = label.replace(/(\s)/g, "_");
         //result += " #"+argUrl[i++];
         
-        hashtag = new Object();
+        var hashtag = new Object();
         hashtag.type = "web_url";
         hashtag.url = url + argUrl[i];
         hashtag.title = "#"+argUrl[i];
         hashtag.webview_height_ratio = "tall";
         hashtags.push(hashtag);
+        console.log("hashTag " + JSON.stringify(hashtag));
         i++;
     });
     
