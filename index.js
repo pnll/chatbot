@@ -125,7 +125,7 @@ translateClient.translate(text, target)
   .catch((err) => {
     console.error('ERROR:', err);
   });
-*/ [END translate_quickstart]
+// [END translate_quickstart]*/
 
 function detectLanguage (text, senderID) {
   // [START translate_detect_language]
