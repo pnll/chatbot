@@ -427,9 +427,14 @@ function receivedMessage(event) {
     var quickReplyPayload = quickReply.payload;
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
-
     //sendTextMessage(senderID, "Quick reply tapped");
     //sendTextMessage(senderID, quickReplyPayload+"를 선택하셨습니다."); //잠깐 삭제
+    if (quickReplyPayload == 'vision') {
+      sendVisionMessage(senderID);
+    }
+    else if (quickReplyPayload == 'web') {
+      sendVisionWebMessage(senderID);
+    }
     return;
   }
 
@@ -685,6 +690,7 @@ function receivedMessage(event) {
       if (url.length > 3) {
         if (url.indexOf('.jpg') || url.indexOf('.jpeg') || url.indexOf('.png') || url.indexOf('.gif')) {
             request(url).pipe(fs.createWriteStream('temp.jpg'));
+            console.log("pipe done");
             
     setTimeout(
      function(){
@@ -696,18 +702,18 @@ function receivedMessage(event) {
       quick_replies: [
         {
           "content_type":"text",
-          "title":"vision",
+          "title":"Vision",
           "payload":"vision"
         },
         {
           "content_type":"text",
-          "title":"web",
+          "title":"Web",
           "payload":"web"
         }
       ]
     }
   };
-    
+  console.log(JSON.stringify(messageData));
   callSendAPI(messageData);
     },2000);
             
