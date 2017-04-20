@@ -1807,7 +1807,7 @@ function sendButtonMessage2(recipientId, argText, labels) {
         hashtag.title = "#"+argUrl[i];
         hashtag.webview_height_ratio = "tall";
         hashtags.push(hashtag);
-        console.log("hashTag " + JSON.stringify(hashtag));
+        console.log("hashTag " + hashtags);
         i++;
     });
     
