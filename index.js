@@ -31,7 +31,8 @@ fpp.setApiSecret('sRcfHQAP-ijE4aFR71Tc64hl4ZH89MSP');
 
 var Promise = require('promise');
 
-var colorJS = require('./lib/color-thief.js');
+//var colorJS = require('./lib/color-thief-node.js');
+var ColorThief = require('color-thief');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -1266,7 +1267,7 @@ function sendVisionColorMessage(recipientId) {
         // Covert the image data to a Buffer and base64 encode it.
 
     setTimeout(function(){
-        colorJS.ColorThief.getColorAsync(obj,function(color, element){
+        ColorThief.getColorAsync(obj,function(color, element){
           console.log('async', color, element.src);
           sendTextMessage(recipientId, "["+color+"] "+'rgb('+color[0]+','+color[1]+','+color[2]+')');
         });
