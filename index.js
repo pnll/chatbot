@@ -18,6 +18,19 @@ const
   https = require('https'),  
   request = require('request');
 const util = require('util');
+
+/*******************************************************/
+var url = require('url');
+var xml2js = require('xml2js');
+var parser = new xml2js.Parser();
+
+var key = '561a36ad7cfd805c6102dcc3bb0f8c8245113234c0c8c8d91e8b9608a21d900b';
+var apiUrl = 'http://data4library.kr/api/srchDtlList';
+var api = apiUrl + '?authKey=' + key + '&loaninfoYN=Y&displayInfo=region';
+var client_id = '55sgkOGFkaVyyLRjgb4b';
+var client_secret = 'VAGamadNN7';
+/*******************************************************/
+
 const faceAPI = require('mt-face-api');
 const Translate = require('@google-cloud/translate');
  
@@ -529,6 +542,9 @@ function receivedMessage(event) {
     if (~messageText.toLowerCase().indexOf('pick')) {
       sendPickMessage(senderID);
     }
+    else if (~messageText.toLowerCase().indexOf('책')) {
+        sendBookFind(senderID, messageText);
+    }
     // If we receive a text message, check to see if it matches any special
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
@@ -606,7 +622,7 @@ function receivedMessage(event) {
       case 'color':
         sendVisionColorMessage(senderID);
         break;
-            
+
             
       case '안녕':
       case '똑똑':
@@ -619,8 +635,7 @@ function receivedMessage(event) {
       case '남자친구':
         sendDemo2(senderID);
         break;
-        
-            
+
       case 'image':
         sendImageMessage(senderID);
         break;
@@ -1075,6 +1090,80 @@ function sendGuessMessage(recipientId) {
         callSendAPI(messageData);
     }
 }
+
+
+function sendBookFind(recipientId, text) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    sender_action: "typing_on"
+  };
+  callSendAPI(messageData);
+    
+    text = text.replace('책', "");
+    var result;
+    var isbn;
+    
+   var api_url = 'https://openapi.naver.com/v1/search/book.xml?query=' + text; // json 결과
+   var options = {
+       url: api_url,
+       headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+    };
+   request.get(options, function (error, response, body) {
+     if (!error && response.statusCode == 200) {
+       //res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
+       //res.end(body);
+
+       parser.parseString(body, function(err, result) {
+         console.log(result);
+         console.error(err);
+         //res.json(result);
+         //var json = JSON.stringify(result);
+         //console.log(json);
+
+         var api_res = result.rss.channel[0];
+         console.log(api_res);
+         console.log(api_res.total);
+         console.log(api_res.item);
+
+         var i;
+         for (i = 0; i < api_res.item.length; i++) {
+           var item = api_res.item[i];
+           console.log(item.title);
+           console.log(item.author);
+           console.log(item.isbn);
+             isbn[i] = item.isbn;
+             result += item.title + ' ';
+         }
+
+
+
+       });
+
+     } else {
+        messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              text: "Can't find the book..",
+              metadata: "Typing_off"
+            }
+        };
+        callSendAPI(messageData);
+     }
+   });
+        
+        setTimeout(
+            function(){
+                sendTextMessage(recipientId, result);
+                console.log(result);
+                sendButtonMessage2(recipientId, "More books on Data4Lib", isbn)
+            },3000);
+
+}
+
 
 function sendVisionMessage(recipientId) {
   var messageData = {

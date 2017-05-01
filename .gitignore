@@ -1,3 +1,6 @@
 *.bak
 *.log
 node_modules/
+build/
+src/
+binding.gyp
