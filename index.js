@@ -20,13 +20,13 @@ const
 const util = require('util');
 
 /*******************************************************/
-var url = require('url');
-var xml2js = require('xml2js');
+const url = require('url');
+const xml2js = require('xml2js');
 var parser = new xml2js.Parser();
 
-var key = '561a36ad7cfd805c6102dcc3bb0f8c8245113234c0c8c8d91e8b9608a21d900b';
+var d4lkey = '561a36ad7cfd805c6102dcc3bb0f8c8245113234c0c8c8d91e8b9608a21d900b';
 var apiUrl = 'http://data4library.kr/api/srchDtlList';
-var api = apiUrl + '?authKey=' + key + '&loaninfoYN=Y&displayInfo=region';
+var api = apiUrl + '?authKey=' + d4lkey + '&loaninfoYN=Y&displayInfo=region';
 var client_id = '55sgkOGFkaVyyLRjgb4b';
 var client_secret = 'VAGamadNN7';
 /*******************************************************/
@@ -129,6 +129,7 @@ var target = 'ko';
 var constLang = 1;
 
 console.log(`Welcome, back! 서버가 재시작됐습니다.`);
+//sendTextMessage('1152273851499573', "Come back!");
 
 /* Translates some text into Russian
 translateClient.translate(text, target)
@@ -412,6 +413,7 @@ function receivedAuthentication(event) {
  */
 
 var messageAttachedImages = new Array();
+var messageBookImages = new Array();
 var facesMS = new Array();
 
 function receivedMessage(event) {
@@ -1101,11 +1103,20 @@ function sendBookFind(recipientId, text) {
   };
   callSendAPI(messageData);
     
+    console.log(text);
     text = text.replace('책', "");
-    var result;
-    var isbn;
+    console.log(text);
+    var book_titles = [];
+    var isbn = [];
+    var book_elements = [];
+    //대출정보
+    //var url = "http://data4library.kr/api/srchDtlList?authKey="+d4lkey+"&loaninfoYN=Y&displayInfo=region&isbn13=";
+    //도서 키워드
+    //var url = "http://data4library.kr/api/keywordList?authKey="+d4lkey+"&additionalYN=Y&isbn13=";
+    //동시대출 도서, 추천 도서
+    var url = "http://data4library.kr/api/recommandList?authKey="+d4lkey+"&isbn13=";
     
-   var api_url = 'https://openapi.naver.com/v1/search/book.xml?query=' + text; // json 결과
+   var api_url = 'https://openapi.naver.com/v1/search/book.xml?query=' + encodeURI(text); // json 결과
    var options = {
        url: api_url,
        headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
@@ -1126,17 +1137,66 @@ function sendBookFind(recipientId, text) {
          console.log(api_res);
          console.log(api_res.total);
          console.log(api_res.item);
-
-         var i;
-         for (i = 0; i < api_res.item.length; i++) {
-           var item = api_res.item[i];
-           console.log(item.title);
-           console.log(item.author);
-           console.log(item.isbn);
-             isbn[i] = item.isbn;
-             result += item.title + ' ';
+                sendTextMessage(recipientId, api_res.total+"권을 찾았습니다.");
+           
+         if(typeof api_res.item == "undefined") {
+            messageData = {
+                recipient: {
+                  id: recipientId
+                },
+                message: {
+                  text: "Can't find the book. Plz try to find another keyword",
+                  metadata: "Typing_off"
+                }
+            };
+            callSendAPI(messageData);
          }
+       else {
+             var i;
+             for (i = 0; i < api_res.item.length; i++) {
+               var item = api_res.item[i];
+               console.log(item.title);
+               console.log(item.author);
+               console.log(item.isbn);
+                 isbn[i] = item.isbn[0];
+                 var title = item.title[0].replace(/<b>/gi,"'");
+                 book_titles[i] = title.replace(/<\/b>/gi,"'");
+                 
+                 messageBookImages.push(item.image[0]);
+                 
+                 
+                 if(i<4) {
+                     var newObj = new Object();
 
+                     newObj.title = book_titles[i];
+                     newObj.image_url = item.image[0];
+                     newObj.subtitle = item.author[0];
+
+                         var defObj = new Object();
+                         defObj.type = "web_url";
+                         defObj.url = item.link[0];
+                         //defObj.messenger_extensions = true;
+                         defObj.webview_height_ratio = "tall";
+                         //defObj.fallback_url = "http://naver.com";
+                     newObj.default_action = defObj;
+
+                     newObj.buttons = new Array();
+                         var btnObj = new Object();
+                         btnObj.title = "함께 대출한 도서 찾기";
+                         btnObj.type = "web_url";
+                         btnObj.url = url + item.isbn[0].split(' ')[1];
+                         //btnObj.messenger_extensions = true;
+                         //btnObj.webview_height_ratio = "tall";
+                         //btnObj.fallback_url = "http://naver.com";
+                     newObj.buttons.push(btnObj);
+
+                     console.log(JSON.stringify(newObj));
+                     book_elements.push(newObj);
+                     console.log(JSON.stringify(book_elements));
+                 }
+
+             }
+       }
 
 
        });
@@ -1147,21 +1207,58 @@ function sendBookFind(recipientId, text) {
               id: recipientId
             },
             message: {
-              text: "Can't find the book..",
+              text: "Can't use the APIs",
               metadata: "Typing_off"
             }
         };
         callSendAPI(messageData);
      }
    });
-        
+
+    
+    
         setTimeout(
             function(){
-                sendTextMessage(recipientId, result);
-                console.log(result);
-                sendButtonMessage2(recipientId, "More books on Data4Lib", isbn)
-            },3000);
+                //sendBookAllMessage(recipientId);
 
+      messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                  type: "template",
+                  payload: {
+                      template_type: "list",
+                      top_element_style: "compact",
+                      elements: book_elements,
+                    buttons: [
+                        {
+                            title: "View More",
+                            type: "postback",
+                            payload: "not yet"                        
+                        }
+                    ]
+                }
+              }
+            }
+      };
+      console.log("SBPN##################### " + JSON.stringify(messageData));            
+      callSendAPI(messageData);
+            
+            
+            },2000);
+        setTimeout(
+            function(){
+                sendTextMessage(recipientId, "※ 10건 이상일 경우 상위 10권만 보여줍니다.");
+                console.log(book_titles);
+                sendBookButtonMessage(recipientId, "More book info on Data4Lib", book_titles, isbn);
+            },7000);
+        setTimeout(
+            function(){
+                messageBookImages = new Array(); //clear
+            },10000);
+    
 }
 
 
@@ -1680,6 +1777,30 @@ function sendAllMessage(recipientId) {
     else sendTextMessage(recipientId, "Nothing");
 
 }
+function sendBookAllMessage(recipientId) {
+    var len = messageBookImages.length;
+    if(len>0) {
+        sendTextMessage(recipientId, "Let me see..");
+        for(var i=0; i<len; i++) {
+          var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "image",
+                payload: {
+                  url: messageBookImages[i]
+                }
+              }
+            }
+          };
+          callSendAPI(messageData);
+        }
+    }
+    else sendTextMessage(recipientId, "Nothing");
+}
+
 function sendSelfImageMessage(recipientId) {
     var arr = ["bot.jpg","b1.gif","b2.gif","b3.gif"]
     var start=1;
@@ -1942,6 +2063,82 @@ function sendButtonMessage2(recipientId, argText, labels) {
       callSendAPI(messageData);    
 
 }
+
+
+function sendBookButtonMessage(recipientId, argText, titles, labels) {
+    var result = "";
+    var argUrl = new Array();
+    var hashtags = new Array();
+    
+    //대출정보
+    //var url = "http://data4library.kr/api/srchDtlList?authKey="+d4lkey+"&loaninfoYN=Y&displayInfo=region&isbn13=";
+    var noti = "도서 키워드"
+    var url = "http://data4library.kr/api/keywordList?authKey="+d4lkey+"&additionalYN=Y&isbn13=";
+    //동시대출 도서, 추천 도서
+    //var url = "http://data4library.kr/api/recommandList?authKey="+d4lkey+"&isbn13=";
+
+    setTimeout(
+        function(){
+        sendTextMessage(recipientId, "선택하면 "+noti+"를 확인할 수 있습니다.");
+        },5000);
+    
+    var i=0;
+    labels.forEach((label) => {
+        console.log(label);
+        argUrl[i] = label.split(' ')[1];
+        
+        var hashtag = new Object();
+        hashtag.type = "web_url";
+        hashtag.url = url + argUrl[i];
+        hashtag.title = titles[i]+" ISBN"+argUrl[i];
+        hashtag.webview_height_ratio = "compact";
+        hashtags.push(hashtag);
+        console.log("hashTag " + hashtags);
+        i++;
+
+        if(i%3==0) {
+            console.log(i);
+          var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "button",
+                  text: argText,
+                  buttons: hashtags
+                }
+              }
+            }
+          };
+          callSendAPI(messageData);
+            
+          //reset
+          hashtags = new Array();
+        }
+    });
+    console.log("All done Tag " + JSON.stringify(hashtags));
+    
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          attachment: {
+            type: "template",
+            payload: {
+              template_type: "button",
+              text: argText,
+              buttons: hashtags
+            }
+          }
+        }
+      };
+      callSendAPI(messageData);
+}
+
 
 
 /*
